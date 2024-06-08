@@ -1,0 +1,87 @@
+[tool.poetry]
+name = "dfapp-base"
+version = "0.0.1a2"
+description = "A Python package with a built-in web application"
+authors = ["Dataformer <contact@dataformer.ai>"]
+maintainers = [
+    "Satpal Singh Rathore <satpal@dataformer.ai>",
+]
+repository = "https://github.com/DataformerAI/dataformer-app"
+license = "MIT"
+readme = "README.md"
+keywords = ["nlp", "dataformer", "openai", "gpt", "gui"]
+packages = [{ include = "dfapp" }, { include = "dfapp/py.typed" }]
+include = ["pyproject.toml", "README.md", "dfapp/**/*"]
+documentation = "https://docs.dataformer.ai"
+
+
+[tool.poetry.scripts]
+dfapp-base = "dfapp.__main__:main"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+fastapi = "^0.110.1"
+httpx = "*"
+uvicorn = "^0.29.0"
+gunicorn = "^22.0.0"
+langchain = "~0.1.16"
+langchainhub = "~0.1.15"
+sqlmodel = "^0.0.16"
+loguru = "^0.7.1"
+rich = "^13.7.0"
+langchain-experimental = "*"
+pydantic = "^2.5.0"
+pydantic-settings = "^2.1.0"
+websockets = "*"
+typer = "^0.12.0"
+cachetools = "^5.3.1"
+platformdirs = "^4.2.0"
+python-multipart = "^0.0.7"
+orjson = "3.10.0"
+alembic = "^1.13.0"
+passlib = "^1.7.4"
+bcrypt = "4.0.1"
+pillow = "^10.2.0"
+docstring-parser = "^0.15"
+python-jose = "^3.3.0"
+pandas = "2.2.0"
+multiprocess = "^0.70.14"
+duckdb = "^0.10.2"
+python-socketio = "^5.11.0"
+python-docx = "^1.1.0"
+jq = { version = "^1.7.0", markers = "sys_platform != 'win32'" }
+pypdf = "^4.1.0"
+nest-asyncio = "^1.6.0"
+emoji = "^2.11.0"
+cryptography = "^42.0.5"
+asyncer = "^0.0.5"
+
+
+[tool.poetry.extras]
+deploy = ["celery", "redis", "flower"]
+local = ["llama-cpp-python", "sentence-transformers", "ctransformers"]
+all = ["deploy", "local"]
+
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra"
+testpaths = ["tests", "integration"]
+console_output_style = "progress"
+filterwarnings = ["ignore::DeprecationWarning"]
+log_cli = true
+markers = ["async_test"]
+
+[tool.mypy]
+namespace_packages = true
+mypy_path = "dfapp"
+ignore_missing_imports = true
+
+
+[tool.ruff]
+exclude = ["src/backend/dfapp/alembic/*"]
+line-length = 120
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

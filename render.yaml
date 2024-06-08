@@ -1,0 +1,16 @@
+services:
+  # A Docker web service
+  - type: web
+    name: dfapp
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    repo: https://github.com/DataformerAI/dataformer-app
+    branch: main
+    healthCheckPath: /health
+    autoDeploy: false
+    envVars:
+      - key: DFAPP_DATABASE_URL
+        value: sqlite:////home/user/.cache/dfapp/dfapp.db
+    disk:
+      name: dfapp-data
+      mountPath: /home/user/.cache/dfapp

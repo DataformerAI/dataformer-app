@@ -1,0 +1,98 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+pre {
+  font-family: inherit;
+}
+
+.react-flow__pane {
+  cursor: default;
+}
+
+.AccordionContent {
+  overflow: hidden;
+}
+.AccordionContent[data-state="open"] {
+  animation: slideDown 300ms ease-out;
+}
+.AccordionContent[data-state="closed"] {
+  animation: slideUp 300ms ease-out;
+}
+
+.gradient-end {
+  animation: gradient-motion-end 3s infinite forwards;
+}
+.gradient-start {
+  animation: gradient-motion-start 4s infinite forwards;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: black;
+  -webkit-box-shadow: 0 0 0px 1000px #fff6d0 inset;
+  box-shadow: 0 0 0px 1000px #fff6d0 inset;
+  color: black;
+}
+.ace_scrollbar::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.ace_scrollbar::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+.ace_scrollbar::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 999px;
+}
+
+.ace_scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #bbb;
+  border-radius: 999px;
+}
+
+.json-view-playground-white-left {
+  background-color: #fff !important;
+  height: fit-content !important;
+}
+
+.json-view-playground-dark {
+  background-color: #141924 !important;
+  height: fit-content !important;
+}
+
+.json-view-playground-white {
+  background-color: #f8fafc !important;
+  height: fit-content !important;
+}
+
+.json-view-playground-dark-left {
+  background-color: #0c101a !important;
+  height: fit-content !important;
+}
+
+.json-view-white {
+  background-color: #f8fafc !important;
+}
+
+.json-view-dark {
+  background-color: #141924 !important;
+}

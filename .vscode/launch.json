@@ -1,0 +1,78 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Backend",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "--factory",
+                "dfapp.main:create_app",
+                "--port",
+                "7860",
+                "--reload",
+                "--log-level",
+                "debug",
+                "--loop",
+                "asyncio"
+            ],
+            "jinja": true,
+            "justMyCode": false,
+            "env": {
+                "DFAPP_LOG_LEVEL": "debug"
+            },
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Debug CLI",
+            "type": "python",
+            "request": "launch",
+            "module": "dfapp",
+            "args": [
+                "run",
+                "--path",
+                "${workspaceFolder}/src/backend/base/dfapp/frontend"
+            ],
+            "jinja": true,
+            "justMyCode": false,
+            "env": {
+                "DFAPP_LOG_LEVEL": "debug"
+            },
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Python: Remote Attach",
+            "type": "python",
+            "request": "attach",
+            "justMyCode": true,
+            "connect": {
+                "port": 5678
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "."
+                }
+            ]
+        },
+        {
+            "name": "Debug Frontend",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000/",
+            "webRoot": "${workspaceRoot}/src/frontend"
+        },
+        {
+            "name": "Python: Debug Tests",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "purpose": [
+                "debug-test"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        }
+    ]
+}
