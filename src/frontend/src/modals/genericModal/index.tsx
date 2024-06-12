@@ -24,8 +24,9 @@ import { postValidatePrompt } from "../../controllers/API";
 import useAlertStore from "../../stores/alertStore";
 import { genericModalPropsType } from "../../types/components";
 import { handleKeyDown } from "../../utils/reactflowUtils";
-import { classNames, varHighlightHTML } from "../../utils/utils";
+import { classNames } from "../../utils/utils";
 import BaseModal from "../baseModal";
+import varHighlightHTML from "./utils/var-highlight-html";
 
 export default function GenericModal({
   field_name = "",
@@ -82,7 +83,7 @@ export default function GenericModal({
     }
 
     const filteredWordsHighlight = matches.filter(
-      (word) => !invalid_chars.includes(word)
+      (word) => !invalid_chars.includes(word),
     );
 
     setWordsHighlight(filteredWordsHighlight);
@@ -133,7 +134,7 @@ export default function GenericModal({
         // to the first key of the custom_fields object
         if (field_name === "") {
           field_name = Array.isArray(
-            apiReturn.data?.frontend_node?.custom_fields?.[""]
+            apiReturn.data?.frontend_node?.custom_fields?.[""],
           )
             ? apiReturn.data?.frontend_node?.custom_fields?.[""][0] ?? ""
             : apiReturn.data?.frontend_node?.custom_fields?.[""] ?? "";
@@ -165,7 +166,6 @@ export default function GenericModal({
         }
       })
       .catch((error) => {
-        console.log(error);
         setIsEdit(true);
         return setErrorData({
           title: PROMPT_ERROR_ALERT,
@@ -209,7 +209,7 @@ export default function GenericModal({
           <div
             className={classNames(
               !isEdit ? "rounded-lg border" : "",
-              "flex h-full w-full"
+              "flex h-full max-h-[85%] w-full",
             )}
           >
             {type === TypeModal.PROMPT && isEdit && !readonly ? (
@@ -244,7 +244,7 @@ export default function GenericModal({
             ) : type !== TypeModal.PROMPT ? (
               <Textarea
                 ref={textRef}
-                className="form-input h-full w-full rounded-lg focus-visible:ring-1"
+                className="form-input h-full w-full overflow-auto rounded-lg focus-visible:ring-1"
                 value={inputValue}
                 onChange={(event) => {
                   setInputValue(event.target.value);

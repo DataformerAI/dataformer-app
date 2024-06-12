@@ -6,11 +6,12 @@ import { ChatMessageType } from "../chat";
 import { FlowStyleType, FlowType, NodeDataType, NodeType } from "../flow/index";
 import { sourceHandleType, targetHandleType } from "./../flow/index";
 export type InputComponentType = {
+  name?: string;
   autoFocus?: boolean;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   value?: string;
   disabled?: boolean;
-  onChange?: (value: string) => void;
+  onChange?: (value: string, snapshot?: boolean) => void;
   password: boolean;
   required?: boolean;
   isForm?: boolean;
@@ -30,11 +31,14 @@ export type InputComponentType = {
   setSelectedOption?: (value: string) => void;
   selectedOptions?: string[];
   setSelectedOptions?: (value: string[]) => void;
+  objectOptions?: Array<{ name: string; id: string }>;
+  isObjectOption?: boolean;
+  onChangeFolderName?: (e: any) => void;
 };
 export type ToggleComponentType = {
   enabled: boolean;
   setEnabled: (state: boolean) => void;
-  disabled: boolean | undefined;
+  disabled?: boolean | undefined;
   size: "small" | "medium" | "large";
   id?: string;
   editNode?: boolean;
@@ -50,6 +54,7 @@ export type DropDownComponentType = {
   children?: ReactNode;
 };
 export type ParameterComponentType = {
+  selected: boolean;
   data: NodeDataType;
   title: string;
   id: sourceHandleType | targetHandleType;
@@ -72,6 +77,16 @@ export type InputListComponentType = {
   disabled: boolean;
   editNode?: boolean;
   componentName?: string;
+  playgroundDisabled?: boolean;
+};
+
+export type InputGlobalComponentType = {
+  disabled: boolean;
+  onChange: (value: string, snapshot?: boolean) => void;
+  setDb: (value: boolean) => void;
+  name: string;
+  data: TemplateVariableType;
+  editNode?: boolean;
   playgroundDisabled?: boolean;
 };
 
@@ -100,7 +115,7 @@ export type TextAreaComponentType = {
   nodeClass?: APIClassType;
   setNodeClass?: (value: APIClassType) => void;
   disabled: boolean;
-  onChange: (value: string[] | string) => void;
+  onChange: (value: string[] | string, skipSnapshot?: boolean) => void;
   value: string;
   editNode?: boolean;
   id?: string;
@@ -112,7 +127,7 @@ export type PromptAreaComponentType = {
   nodeClass?: APIClassType;
   setNodeClass?: (value: APIClassType, code?: string) => void;
   disabled: boolean;
-  onChange: (value: string[] | string) => void;
+  onChange: (value: string[] | string, skipSnapshot?: boolean) => void;
   value: string;
   readonly?: boolean;
   editNode?: boolean;
@@ -122,7 +137,7 @@ export type PromptAreaComponentType = {
 export type CodeAreaComponentType = {
   setOpenModal?: (bool: boolean) => void;
   disabled: boolean;
-  onChange: (value: string[] | string) => void;
+  onChange: (value: string[] | string, skipSnapshot?: boolean) => void;
   value: string;
   editNode?: boolean;
   nodeClass?: APIClassType;
@@ -137,7 +152,7 @@ export type CodeAreaComponentType = {
 export type FileComponentType = {
   IOInputProps?;
   disabled: boolean;
-  onChange: (value: string[] | string) => void;
+  onChange: (value: string[] | string, skipSnapshot?: boolean) => void;
   value: string;
   fileTypes: Array<string>;
   onFileChange: (value: string) => void;
@@ -170,7 +185,7 @@ export type IntComponentType = {
   value: string;
   disabled?: boolean;
   rangeSpec: RangeSpecType;
-  onChange: (value: string) => void;
+  onChange: (value: string, skipSnapshot?: boolean) => void;
   editNode?: boolean;
   id?: string;
 };
@@ -178,10 +193,18 @@ export type IntComponentType = {
 export type FloatComponentType = {
   value: string;
   disabled?: boolean;
-  onChange: (value: string) => void;
+  onChange: (value: string, skipSnapshot?: boolean) => void;
   rangeSpec: RangeSpecType;
   editNode?: boolean;
   id?: string;
+};
+
+export type FilePreviewType = {
+  loading: boolean;
+  file: File;
+  error: boolean;
+  id: string;
+  path?: string;
 };
 
 export type TooltipComponentType = {
@@ -217,9 +240,11 @@ export type AccordionComponentType = {
   children?: ReactElement;
   open?: string[];
   trigger?: string | ReactElement;
+  disabled?: boolean;
   keyValue?: string;
   openDisc?: boolean;
   sideBar?: boolean;
+  options?: { title: string; icon: string }[];
 };
 export type Side = "top" | "right" | "bottom" | "left";
 
@@ -264,9 +289,11 @@ export type IconComponentProps = {
 export type InputProps = {
   name: string | null;
   description: string | null;
+  endpointName?: string;
   maxLength?: number;
   setName?: (name: string) => void;
   setDescription?: (description: string) => void;
+  setEndpointName?: (endpointName: string) => void;
   invalidNameList?: string[];
 };
 
@@ -370,7 +397,8 @@ export type loginInputStateType = {
 export type patchUserInputStateType = {
   password: string;
   cnfPassword: string;
-  gradient: string;
+  profilePicture: string;
+  apikey: string;
 };
 
 export type UserInputType = {
@@ -384,11 +412,7 @@ export type UserInputType = {
 };
 
 export type ApiKeyType = {
-  title: string;
-  cancelText: string;
-  confirmationText: string;
   children: ReactElement;
-  icon: string;
   data?: any;
   onCloseModal: () => void;
 };
@@ -400,6 +424,7 @@ export type StoreApiKeyType = {
 export type groupedObjType = {
   family: string;
   type: string;
+  display_name?: string;
 };
 
 export type nodeGroupedObjType = {
@@ -463,14 +488,25 @@ export type headerFlowsType = {
   style?: FlowStyleType;
 };
 
-export type chatInputType = {
+export type ChatInputType = {
+  isDragging: boolean;
+  files: FilePreviewType[];
+  setFiles: (
+    files: FilePreviewType[] | ((prev: FilePreviewType[]) => FilePreviewType[]),
+  ) => void;
   chatValue: string;
   inputRef: {
     current: any;
   };
   lockChat: boolean;
   noInput: boolean;
-  sendMessage: (count?: number) => void;
+  sendMessage: ({
+    repeat,
+    files,
+  }: {
+    repeat: number;
+    files?: string[];
+  }) => void;
   setChatValue: (value: string) => void;
 };
 
@@ -496,9 +532,12 @@ export type fileCardPropsType = {
   fileName: string;
   content: string;
   fileType: string;
+  showFile?: boolean;
 };
 
 export type nodeToolbarPropsType = {
+  //  openWDoubleClick: boolean;
+  //  setOpenWDoubleClick: (open: boolean) => void;
   data: NodeDataType;
   deleteNode: (idx: string) => void;
   setShowNode: (boolean: any) => void;
@@ -508,13 +547,8 @@ export type nodeToolbarPropsType = {
   openAdvancedModal?: boolean;
   onCloseAdvancedModal?: (close: boolean) => void;
   selected: boolean;
-  updateNodeCode?: (
-    newNodeClass: APIClassType,
-    code: string,
-    name: string,
-  ) => void;
   setShowState: (show: boolean | SetStateAction<boolean>) => void;
-  isOutdated?: boolean;
+  updateNode: () => void;
 };
 
 export type parsedDataType = {
@@ -537,7 +571,7 @@ export type iconsType = {
 
 export type modalHeaderType = {
   children: ReactNode;
-  description: string | null;
+  description: string | JSX.Element | null;
 };
 
 export type codeAreaModalPropsType = {
@@ -663,6 +697,7 @@ export type codeTabsPropsType = {
   };
   activeTweaks?: boolean;
   setActiveTweaks?: (value: boolean) => void;
+  allowExport?: boolean;
 };
 
 export type crashComponentPropsType = {
@@ -673,10 +708,14 @@ export type crashComponentPropsType = {
   resetErrorBoundary: (args) => void;
 };
 
+export type Log = {
+  message: string;
+};
+
 export type validationStatusType = {
   id: string;
   data: object | any;
-  params: string;
+  logs: Log[];
   progress?: number;
   valid: boolean;
   duration?: string;
@@ -716,7 +755,13 @@ export type IOFieldViewProps = {
 export type UndrawCardComponentProps = { flow: FlowType };
 
 export type chatViewProps = {
-  sendMessage: (count?: number) => void;
+  sendMessage: ({
+    repeat,
+    files,
+  }: {
+    repeat: number;
+    files?: string[];
+  }) => void;
   chatValue: string;
   setChatValue: (value: string) => void;
   lockChat: boolean;
@@ -729,19 +774,24 @@ export type IOFileInputProps = {
 };
 
 export type toolbarSelectItemProps = {
-  isMac: boolean;
-  shift: boolean;
-  keyboardKey: string;
   value: string;
   icon: string;
-  styleObj?: {
-    iconClasses?: string;
-    commandClasses?: string;
-    shiftClasses?: string;
-    ctrlClasses?: string;
-    keyClasses?: string;
-    valueClasses?: string;
-  };
+  style?: string;
   dataTestId: string;
   ping?: boolean;
+  shortcut: string;
+};
+
+export type clearChatPropsType = {
+  lockChat: boolean;
+  setLockChat: (lock: boolean) => void;
+  setChatHistory: (chatHistory: ChatMessageType) => void;
+  method: string;
+};
+
+export type handleSelectPropsType = {
+  event: string;
+  lockChat: boolean;
+  setLockChat: (lock: boolean) => void;
+  setChatHistory: (chatHistory: ChatMessageType) => void;
 };

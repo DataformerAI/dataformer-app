@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { DictComponentType } from "../../types/components";
 
 import DictAreaModal from "../../modals/dictAreaModal";
@@ -12,28 +12,25 @@ export default function DictComponent({
   editNode = false,
   id = "",
 }: DictComponentType): JSX.Element {
+  // Create a reference to the value
+
   useEffect(() => {
     if (disabled) {
       onChange({});
     }
   }, [disabled]);
 
-  useEffect(() => {
-    if (value) onChange(value);
-  }, [value]);
-
-  const ref = useRef(value);
   return (
     <div
       className={classNames(
         value.length > 1 && editNode ? "my-1" : "",
-        "flex flex-col gap-3"
+        "flex w-full flex-col gap-3",
       )}
     >
       {
         <div className="flex w-full gap-3" data-testid={id}>
           <DictAreaModal
-            value={ref.current}
+            value={value}
             onChange={(obj) => {
               onChange(obj);
             }}

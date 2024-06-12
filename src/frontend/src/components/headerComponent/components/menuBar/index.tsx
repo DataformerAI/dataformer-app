@@ -8,24 +8,22 @@ import {
 } from "../../../ui/dropdown-menu";
 
 import { useNavigate } from "react-router-dom";
-import { Node } from "reactflow";
 import { UPLOAD_ERROR_ALERT } from "../../../../constants/alerts_constants";
-import { SAVED_HOVER } from "../../../../constants/constants";
+import { IS_MAC, SAVED_HOVER } from "../../../../constants/constants";
 import ExportModal from "../../../../modals/exportModal";
+import FlowLogsModal from "../../../../modals/flowLogsModal";
 import FlowSettingsModal from "../../../../modals/flowSettingsModal";
 import useAlertStore from "../../../../stores/alertStore";
 import useFlowStore from "../../../../stores/flowStore";
 import useFlowsManagerStore from "../../../../stores/flowsManagerStore";
+import { useShortcutsStore } from "../../../../stores/shortcuts";
 import { cn } from "../../../../utils/utils";
 import IconComponent from "../../../genericIconComponent";
 import ShadTooltip from "../../../shadTooltipComponent";
 import { Button } from "../../../ui/button";
 
-export const MenuBar = ({
-  removeFunction,
-}: {
-  removeFunction: (nodes: Node[]) => void;
-}): JSX.Element => {
+export const MenuBar = ({}: {}): JSX.Element => {
+  const shortcuts = useShortcutsStore((state) => state.shortcuts);
   const addFlow = useFlowsManagerStore((state) => state.addFlow);
   const currentFlow = useFlowsManagerStore((state) => state.currentFlow);
   const setErrorData = useAlertStore((state) => state.setErrorData);
@@ -34,26 +32,16 @@ export const MenuBar = ({
   const redo = useFlowsManagerStore((state) => state.redo);
   const saveLoading = useFlowsManagerStore((state) => state.saveLoading);
   const [openSettings, setOpenSettings] = useState(false);
-  const nodes = useFlowStore((state) => state.nodes);
+  const [openLogs, setOpenLogs] = useState(false);
   const uploadFlow = useFlowsManagerStore((state) => state.uploadFlow);
   const navigate = useNavigate();
   const isBuilding = useFlowStore((state) => state.isBuilding);
 
-  function handleAddFlow(duplicate?: boolean) {
+  function handleAddFlow() {
     try {
-      if (duplicate) {
-        if (!currentFlow) {
-          throw new Error("No flow to duplicate");
-        }
-        addFlow(true, currentFlow).then((id) => {
-          setSuccessData({ title: "Flow duplicated successfully" });
-          navigate("/flow/" + id);
-        });
-      } else {
-        addFlow(true).then((id) => {
-          navigate("/flow/" + id);
-        });
-      }
+      addFlow(true).then((id) => {
+        navigate("/flow/" + id);
+      });
     } catch (err) {
       setErrorData(err as { title: string; list?: Array<string> });
     }
@@ -70,14 +58,6 @@ export const MenuBar = ({
 
   return currentFlow ? (
     <div className="round-button-div">
-      <button
-        onClick={() => {
-          removeFunction(nodes);
-          navigate("/");
-        }}
-      >
-        <IconComponent name="ChevronLeft" className="w-4" />
-      </button>
       <div className="header-menu-bar">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -101,15 +81,6 @@ export const MenuBar = ({
               <IconComponent name="Plus" className="header-menu-options" />
               New
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
-                handleAddFlow(true);
-              }}
-              className="cursor-pointer"
-            >
-              <IconComponent name="Copy" className="header-menu-options" />
-              Duplicate
-            </DropdownMenuItem>
 
             <DropdownMenuItem
               onClick={() => {
@@ -124,6 +95,18 @@ export const MenuBar = ({
               Settings
             </DropdownMenuItem>
             <DropdownMenuItem
+              onClick={() => {
+                setOpenLogs(true);
+              }}
+              className="cursor-pointer"
+            >
+              <IconComponent
+                name="ScrollText"
+                className="header-menu-options "
+              />
+              Logs
+            </DropdownMenuItem>
+            <DropdownMenuItem
               className="cursor-pointer"
               onClick={() => {
                 uploadFlow({ newProject: false, isComponent: false }).catch(
@@ -132,7 +115,7 @@ export const MenuBar = ({
                       title: UPLOAD_ERROR_ALERT,
                       list: [error],
                     });
-                  }
+                  },
                 );
               }}
             >
@@ -156,17 +139,19 @@ export const MenuBar = ({
             >
               <IconComponent name="Undo" className="header-menu-options " />
               Undo
-              {navigator.userAgent.toUpperCase().includes("MAC") ? (
+              {IS_MAC ? (
                 <IconComponent
                   name="Command"
                   className="absolute right-[1.15rem] top-[0.65em] h-3.5 w-3.5 stroke-2"
                 />
               ) : (
                 <span className="absolute right-[1.15rem] top-[0.40em] stroke-2">
-                  Ctrl +{" "}
+                  {
+                    shortcuts.find((s) => s.name.toLowerCase() === "undo")
+                      ?.shortcut
+                  }
                 </span>
               )}
-              <span className="absolute right-2 top-[0.4em]">Z</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
@@ -176,17 +161,19 @@ export const MenuBar = ({
             >
               <IconComponent name="Redo" className="header-menu-options " />
               Redo
-              {navigator.userAgent.toUpperCase().includes("MAC") ? (
+              {IS_MAC ? (
                 <IconComponent
                   name="Command"
                   className="absolute right-[1.15rem] top-[0.65em] h-3.5 w-3.5 stroke-2"
                 />
               ) : (
                 <span className="absolute right-[1.15rem] top-[0.40em] stroke-2">
-                  Ctrl +{" "}
+                  {
+                    shortcuts.find((s) => s.name.toLowerCase() === "redo")
+                      ?.shortcut
+                  }
                 </span>
               )}
-              <span className="absolute right-2 top-[0.4em]">Y</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -194,6 +181,7 @@ export const MenuBar = ({
           open={openSettings}
           setOpen={setOpenSettings}
         ></FlowSettingsModal>
+        <FlowLogsModal open={openLogs} setOpen={setOpenLogs}></FlowLogsModal>
       </div>
       {(currentFlow.updated_at || saveLoading) && (
         <ShadTooltip
@@ -213,7 +201,7 @@ export const MenuBar = ({
               name={isBuilding || saveLoading ? "Loader2" : "CheckCircle2"}
               className={cn(
                 "h-4 w-4",
-                isBuilding || saveLoading ? "animate-spin" : "animate-wiggle"
+                isBuilding || saveLoading ? "animate-spin" : "animate-wiggle",
               )}
             />
             {printByBuildStatus()}

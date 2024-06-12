@@ -28,7 +28,7 @@ export default function CrashErrorComponent({
                 <p>
                   Please report errors with detailed tracebacks on the{" "}
                   <a
-                    href="https://github.com/DataformerAI/dataformer-app/issues"
+                    href="https://github.com/dfapp-ai/dfapp/issues"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-medium  hover:underline "
@@ -44,10 +44,10 @@ export default function CrashErrorComponent({
 
             <CardFooter>
               <div className="m-auto mt-4 flex justify-center">
-                <Button onClick={resetErrorBoundary}>Restart Dataformer App</Button>
+                <Button onClick={resetErrorBoundary}>Restart DataformerApp</Button>
 
                 <a
-                  href="https://github.com/DataformerAI/dataformer-app/issues/new"
+                  href="https://github.com/dfapp-ai/dfapp/issues/new"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

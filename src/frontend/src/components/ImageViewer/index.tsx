@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import ForwardedIconComponent from "../genericIconComponent";
-import useFlowStore from "../../stores/flowStore";
-import OpenSeadragon from "openseadragon";
-import { Separator } from "../ui/separator";
 import { saveAs } from "file-saver";
-import useAlertStore from "../../stores/alertStore";
+import OpenSeadragon from "openseadragon";
+import { useEffect, useRef, useState } from "react";
 import { IMGViewErrorMSG, IMGViewErrorTitle } from "../../constants/constants";
+import useAlertStore from "../../stores/alertStore";
+import ForwardedIconComponent from "../genericIconComponent";
+import { Separator } from "../ui/separator";
 
 export default function ImageViewer({ image }) {
   const viewerRef = useRef(null);

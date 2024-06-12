@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useFlowsManagerStore from "../../stores/flowsManagerStore";
-import { getComponent } from "../../controllers/API";
-import cloneFLowWithParent from "../../utils/storeUtils";
 import LoadingComponent from "../../components/loadingComponent";
-import useFlowStore from "../../stores/flowStore";
+import { getComponent } from "../../controllers/API";
 import IOModal from "../../modals/IOModal";
+import useFlowStore from "../../stores/flowStore";
+import useFlowsManagerStore from "../../stores/flowsManagerStore";
+import cloneFLowWithParent from "../../utils/storeUtils";
 
 export default function PlaygroundPage() {
   const currentFlow = useFlowsManagerStore((state) => state.currentFlow);
@@ -29,7 +29,6 @@ export default function PlaygroundPage() {
 
   // Set flow tab id
   useEffect(() => {
-    console.log("id", id);
     if (getFlowById(id!)) {
       setCurrentFlowId(id!);
     } else {

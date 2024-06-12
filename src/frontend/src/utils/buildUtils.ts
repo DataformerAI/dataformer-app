@@ -10,13 +10,14 @@ import { VertexLayerElementType } from "../types/zustand/flow";
 type BuildVerticesParams = {
   flowId: string; // Assuming FlowType is the type for your flow
   input_value?: any; // Replace any with the actual type if it's not any
+  files?: string[];
   startNodeId?: string | null; // Assuming nodeId is of type string, and it's optional
   stopNodeId?: string | null; // Assuming nodeId is of type string, and it's optional
   onGetOrderSuccess?: () => void;
   onBuildUpdate?: (
     data: VertexBuildTypeAPI,
     status: BuildStatus,
-    buildId: string
+    buildId: string,
   ) => void; // Replace any with the actual type if it's not any
   onBuildComplete?: (allNodesValid: boolean) => void;
   onBuildError?: (title, list, idList: VertexLayerElementType[]) => void;
@@ -30,12 +31,13 @@ function getInactiveVertexData(vertexId: string): VertexBuildTypeAPI {
   // Build VertexBuildTypeAPI
   let inactiveData = {
     results: {},
-    artifacts: { repr: "Inactive" },
+    logs: [],
+    messages: [],
+    inactive: true,
   };
   let inactiveVertexData = {
     id: vertexId,
     data: inactiveData,
-    params: "Inactive",
     inactivated_vertices: null,
     run_id: "",
     next_vertices_ids: [],
@@ -53,7 +55,7 @@ export async function updateVerticesOrder(
   startNodeId?: string | null,
   stopNodeId?: string | null,
   nodes?: Node[],
-  edges?: Edge[]
+  edges?: Edge[],
 ): Promise<{
   verticesLayers: VertexLayerElementType[][];
   verticesIds: string[];
@@ -69,14 +71,13 @@ export async function updateVerticesOrder(
         startNodeId,
         stopNodeId,
         nodes,
-        edges
+        edges,
       );
     } catch (error: any) {
       setErrorData({
         title: "Oops! Looks like you missed something",
         list: [error.response?.data?.detail ?? "Unknown Error"],
       });
-      debugger;
       useFlowStore.getState().setIsBuilding(false);
       throw new Error("Invalid nodes");
     }
@@ -105,6 +106,7 @@ export async function updateVerticesOrder(
 export async function buildVertices({
   flowId,
   input_value,
+  files,
   startNodeId,
   stopNodeId,
   onGetOrderSuccess,
@@ -126,7 +128,7 @@ export async function buildVertices({
     startNodeId,
     stopNodeId,
     nodes,
-    edges
+    edges,
   );
   if (onValidateNodes) {
     try {
@@ -188,14 +190,14 @@ export async function buildVertices({
             onBuildUpdate(
               getInactiveVertexData(element.id),
               BuildStatus.INACTIVE,
-              runId
+              runId,
             );
           }
           if (element.reference) {
             onBuildUpdate(
               getInactiveVertexData(element.reference),
               BuildStatus.INACTIVE,
-              runId
+              runId,
             );
           }
           buildResults.push(false);
@@ -207,6 +209,7 @@ export async function buildVertices({
           flowId,
           id: element.id,
           input_value,
+          files,
           onBuildUpdate: (data: VertexBuildTypeAPI, status: BuildStatus) => {
             if (onBuildUpdate) onBuildUpdate(data, status, runId);
           },
@@ -220,7 +223,7 @@ export async function buildVertices({
         if (stop) {
           return;
         }
-      })
+      }),
     );
     // Once the current layer is built, move to the next layer
     currentLayerIndex += 1;
@@ -239,6 +242,7 @@ async function buildVertex({
   flowId,
   id,
   input_value,
+  files,
   onBuildUpdate,
   onBuildError,
   verticesIds,
@@ -248,6 +252,7 @@ async function buildVertex({
   flowId: string;
   id: string;
   input_value: string;
+  files?: string[];
   onBuildUpdate?: (data: any, status: BuildStatus) => void;
   onBuildError?: (title, list, idList: VertexLayerElementType[]) => void;
   verticesIds: string[];
@@ -255,15 +260,15 @@ async function buildVertex({
   stopBuild: () => void;
 }) {
   try {
-    const buildRes = await postBuildVertex(flowId, id, input_value);
+    const buildRes = await postBuildVertex(flowId, id, input_value, files);
 
     const buildData: VertexBuildTypeAPI = buildRes.data;
     if (onBuildUpdate) {
       if (!buildData.valid) {
         onBuildError!(
           "Error Building Component",
-          [buildData.params],
-          verticesIds.map((id) => ({ id }))
+          buildData.data.logs.map((log) => log.message),
+          verticesIds.map((id) => ({ id })),
         );
         stopBuild();
       }
@@ -271,10 +276,11 @@ async function buildVertex({
     }
     buildResults.push(buildData.valid);
   } catch (error) {
+    console.error(error);
     onBuildError!(
       "Error Building Component",
       [(error as AxiosError<any>).response?.data?.detail ?? "Unknown Error"],
-      verticesIds.map((id) => ({ id }))
+      verticesIds.map((id) => ({ id })),
     );
     stopBuild();
   }

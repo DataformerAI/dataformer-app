@@ -26,6 +26,7 @@ import {
   TabsTrigger,
 } from "../../components/ui/tabs";
 import { DFAPP_SUPPORTED_TYPES } from "../../constants/constants";
+import { Case } from "../../shared/components/caseComponent";
 import { useDarkStore } from "../../stores/darkStore";
 import useFlowStore from "../../stores/flowStore";
 import { codeTabsPropsType } from "../../types/components";
@@ -34,16 +35,16 @@ import {
   convertValuesToNumbers,
   hasDuplicateKeys,
 } from "../../utils/reactflowUtils";
-import { classNames } from "../../utils/utils";
+import { classNames, cn } from "../../utils/utils";
 import AccordionComponent from "../accordionComponent";
 import DictComponent from "../dictComponent";
 import IconComponent from "../genericIconComponent";
 import InputComponent from "../inputComponent";
 import KeypairListComponent from "../keypairListComponent";
 import ShadTooltip from "../shadTooltipComponent";
+import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
-import ExportModal from "../../modals/exportModal";
 
 export default function CodeTabsComponent({
   flow,
@@ -54,6 +55,7 @@ export default function CodeTabsComponent({
   tweaks,
   setActiveTweaks,
   activeTweaks,
+  allowExport = false,
 }: codeTabsPropsType) {
   const [isCopied, setIsCopied] = useState<Boolean>(false);
   const [data, setData] = useState(flow ? flow["data"]!["nodes"] : null);
@@ -87,26 +89,8 @@ export default function CodeTabsComponent({
     });
   };
 
-  const downloadAsFile = () => {
-    const fileExtension = tabs[activeTab].language || ".txt";
-    const suggestedFileName = `${"generated-code."}${fileExtension}`;
-    const fileName = window.prompt("Enter the file name.", suggestedFileName);
-
-    if (!fileName) {
-      // user pressed cancel on prompt
-      return;
-    }
-
-    const blob = new Blob([tabs[activeTab].code], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.download = fileName;
-    link.href = url;
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+  const type = (node, templateParam) => {
+    return node.data.node.template[templateParam].type;
   };
 
   return (
@@ -140,60 +124,43 @@ export default function CodeTabsComponent({
           <div></div>
         )}
 
-        <div className="float-right mx-1 mb-1 mt-2 flex gap-2">
-          <div
-            className={
-              Number(activeTab) > 2
-                ? "hidden"
-                : "relative top-[2.5px] flex gap-2"
-            }
-          >
-            <Switch
-              style={{
-                transform: `scaleX(${0.7}) scaleY(${0.7})`,
-              }}
-              id="tweaks-switch"
-              onCheckedChange={setActiveTweaks}
-              autoFocus={false}
-            />
-            <Label
-              className={
-                "relative right-1 top-[4px] text-xs font-medium text-gray-500 dark:text-gray-300 " +
-                (activeTweaks
-                  ? "font-bold text-black dark:text-white"
-                  : "font-medium")
-              }
-              htmlFor="tweaks-switch"
-            >
-              Tweaks
-            </Label>
-          </div>
-          <ExportModal>
-            <div className="flex cursor-pointer items-center gap-1.5 rounded bg-none p-1 text-xs text-gray-500 dark:text-gray-300">
-              <IconComponent name="FileDown" className="h-4 w-4" />
-              Export Flow
+        <div className="float-right mx-2 mb-1 mt-2 flex items-center gap-4">
+          {tweaks && (
+            <div className={Number(activeTab) > 2 ? "hidden" : "flex gap-2"}>
+              <Switch
+                style={{
+                  transform: `scaleX(${0.7}) scaleY(${0.7})`,
+                }}
+                id="tweaks-switch"
+                onCheckedChange={setActiveTweaks}
+                autoFocus={false}
+              />
+              <Label
+                className={cn(
+                  "relative right-1 top-[4px] text-xs font-medium text-muted-foreground",
+                  activeTweaks ? "text-primary" : ""
+                )}
+                htmlFor="tweaks-switch"
+              >
+                Tweaks
+              </Label>
             </div>
-          </ExportModal>
+          )}
 
           {Number(activeTab) < 4 && (
             <>
-              <button
-                className="flex items-center gap-1.5 rounded bg-none p-1 text-xs text-gray-500 dark:text-gray-300"
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-muted-foreground"
                 onClick={copyToClipboard}
               >
                 {isCopied ? (
                   <IconComponent name="Check" className="h-4 w-4" />
                 ) : (
-                  <IconComponent name="Clipboard" className="h-4 w-4" />
+                  <IconComponent name="Copy" className="h-4 w-4" />
                 )}
-                {isCopied ? "Copied!" : "Copy Code"}
-              </button>
-              <button
-                className="flex items-center gap-1.5 rounded bg-none p-1 text-xs text-gray-500 dark:text-gray-300"
-                onClick={downloadAsFile}
-              >
-                <IconComponent name="Download" className="h-5 w-5" />
-              </button>
+              </Button>
             </>
           )}
         </div>
@@ -226,7 +193,7 @@ export default function CodeTabsComponent({
               <div className="api-modal-according-display">
                 <div
                   className={classNames(
-                    "h-[70vh] w-full overflow-y-auto overflow-x-hidden rounded-lg bg-muted custom-scroll",
+                    "h-[70vh] w-full overflow-y-auto overflow-x-hidden rounded-lg bg-muted custom-scroll"
                   )}
                 >
                   {data?.map((node: any, i) => (
@@ -265,8 +232,8 @@ export default function CodeTabsComponent({
                                         .show &&
                                       DFAPP_SUPPORTED_TYPES.has(
                                         node.data.node.template[templateField]
-                                          .type,
-                                      ),
+                                          .type
+                                      )
                                   )
                                   .map((templateField, indx) => {
                                     return (
@@ -276,107 +243,71 @@ export default function CodeTabsComponent({
                                         </TableCell>
                                         <TableCell className="p-0 text-xs text-foreground">
                                           <div className="m-auto w-[250px]">
-                                            {node.data.node.template[
-                                              templateField
-                                            ].type === "str" &&
-                                            !node.data.node.template[
-                                              templateField
-                                            ].options ? (
-                                              <div className="mx-auto">
-                                                {node.data.node.template[
+                                            <Case
+                                              condition={
+                                                type(node, templateField) ===
+                                                  "str" &&
+                                                !node.data.node.template[
                                                   templateField
-                                                ]?.list ? (
-                                                  <InputListComponent
-                                                    componentName={
-                                                      templateField
-                                                    }
-                                                    editNode={true}
-                                                    disabled={false}
-                                                    value={
-                                                      !node.data.node.template[
-                                                        templateField
-                                                      ].value ||
-                                                      node.data.node.template[
-                                                        templateField
-                                                      ].value === ""
-                                                        ? [""]
-                                                        : node.data.node
-                                                            .template[
-                                                            templateField
-                                                          ].value
-                                                    }
-                                                    onChange={(target) => {
-                                                      setData((old) => {
-                                                        let newInputList =
-                                                          cloneDeep(old);
-                                                        newInputList![
-                                                          i
-                                                        ].data.node.template[
-                                                          templateField
-                                                        ].value = target;
-                                                        return newInputList;
-                                                      });
-                                                      tweaks?.buildTweakObject!(
-                                                        node["data"]["id"],
-                                                        target,
-                                                        node.data.node.template[
-                                                          templateField
-                                                        ],
-                                                      );
-                                                    }}
-                                                  />
-                                                ) : node.data.node.template[
+                                                ].options
+                                              }
+                                            >
+                                              <Case
+                                                condition={
+                                                  node.data.node.template[
                                                     templateField
-                                                  ].multiline ? (
-                                                  <div>
-                                                    <TextAreaComponent
-                                                      disabled={false}
-                                                      editNode={true}
-                                                      value={
-                                                        !node.data.node
-                                                          .template[
+                                                  ]?.list
+                                                }
+                                              >
+                                                <InputListComponent
+                                                  componentName={templateField}
+                                                  editNode={true}
+                                                  disabled={false}
+                                                  value={
+                                                    !node.data.node.template[
+                                                      templateField
+                                                    ].value ||
+                                                    node.data.node.template[
+                                                      templateField
+                                                    ].value === ""
+                                                      ? [""]
+                                                      : node.data.node.template[
                                                           templateField
-                                                        ].value ||
-                                                        node.data.node.template[
-                                                          templateField
-                                                        ].value === ""
-                                                          ? ""
-                                                          : node.data.node
-                                                              .template[
-                                                              templateField
-                                                            ].value
-                                                      }
-                                                      onChange={(target) => {
-                                                        setData((old) => {
-                                                          let newInputList =
-                                                            cloneDeep(old);
-                                                          newInputList![
-                                                            i
-                                                          ].data.node.template[
-                                                            templateField
-                                                          ].value = target;
-                                                          return newInputList;
-                                                        });
-                                                        tweaks?.buildTweakObject!(
-                                                          node["data"]["id"],
-                                                          target,
-                                                          node.data.node
-                                                            .template[
-                                                            templateField
-                                                          ],
-                                                        );
-                                                      }}
-                                                    />
-                                                  </div>
-                                                ) : (
-                                                  <InputComponent
-                                                    editNode={true}
-                                                    disabled={false}
-                                                    password={
+                                                        ].value
+                                                  }
+                                                  onChange={(target) => {
+                                                    setData((old) => {
+                                                      let newInputList =
+                                                        cloneDeep(old);
+                                                      newInputList![
+                                                        i
+                                                      ].data.node.template[
+                                                        templateField
+                                                      ].value = target;
+                                                      return newInputList;
+                                                    });
+                                                    tweaks?.buildTweakObject!(
+                                                      node["data"]["id"],
+                                                      target,
                                                       node.data.node.template[
                                                         templateField
-                                                      ].password ?? false
-                                                    }
+                                                      ]
+                                                    );
+                                                  }}
+                                                />
+                                              </Case>
+
+                                              <Case
+                                                condition={
+                                                  node.data.node.template[
+                                                    templateField
+                                                  ].multiline
+                                                }
+                                              >
+                                                <div>
+                                                  <TextAreaComponent
+                                                    disabled={false}
+                                                    editNode={true}
                                                     value={
                                                       !node.data.node.template[
                                                         templateField
@@ -406,15 +337,72 @@ export default function CodeTabsComponent({
                                                         target,
                                                         node.data.node.template[
                                                           templateField
-                                                        ],
+                                                        ]
                                                       );
                                                     }}
                                                   />
-                                                )}
-                                              </div>
-                                            ) : node.data.node.template[
-                                                templateField
-                                              ].type === "bool" ? (
+                                                </div>
+                                              </Case>
+
+                                              <Case
+                                                condition={
+                                                  !node.data.node.template[
+                                                    templateField
+                                                  ].multiline &&
+                                                  !node.data.node.template[
+                                                    templateField
+                                                  ].list
+                                                }
+                                              >
+                                                <InputComponent
+                                                  editNode={true}
+                                                  disabled={false}
+                                                  password={
+                                                    node.data.node.template[
+                                                      templateField
+                                                    ].password ?? false
+                                                  }
+                                                  value={
+                                                    !node.data.node.template[
+                                                      templateField
+                                                    ].value ||
+                                                    node.data.node.template[
+                                                      templateField
+                                                    ].value === ""
+                                                      ? ""
+                                                      : node.data.node.template[
+                                                          templateField
+                                                        ].value
+                                                  }
+                                                  onChange={(target) => {
+                                                    setData((old) => {
+                                                      let newInputList =
+                                                        cloneDeep(old);
+                                                      newInputList![
+                                                        i
+                                                      ].data.node.template[
+                                                        templateField
+                                                      ].value = target;
+                                                      return newInputList;
+                                                    });
+                                                    tweaks?.buildTweakObject!(
+                                                      node["data"]["id"],
+                                                      target,
+                                                      node.data.node.template[
+                                                        templateField
+                                                      ]
+                                                    );
+                                                  }}
+                                                />
+                                              </Case>
+                                            </Case>
+
+                                            <Case
+                                              condition={
+                                                type(node, templateField) ===
+                                                "bool"
+                                              }
+                                            >
                                               <div className="ml-auto">
                                                 {" "}
                                                 <ToggleShadComponent
@@ -439,16 +427,21 @@ export default function CodeTabsComponent({
                                                       e,
                                                       node.data.node.template[
                                                         templateField
-                                                      ],
+                                                      ]
                                                     );
                                                   }}
                                                   size="small"
                                                   disabled={false}
                                                 />
                                               </div>
-                                            ) : node.data.node.template[
-                                                templateField
-                                              ].type === "file" ? (
+                                            </Case>
+
+                                            <Case
+                                              condition={
+                                                type(node, templateField) ===
+                                                "file"
+                                              }
+                                            >
                                               <div className="mx-auto">
                                                 <InputFileComponent
                                                   editNode={true}
@@ -465,7 +458,7 @@ export default function CodeTabsComponent({
                                                     ].fileTypes
                                                   }
                                                   onFileChange={(
-                                                    value: any,
+                                                    value: any
                                                   ) => {
                                                     node.data.node.template[
                                                       templateField
@@ -473,9 +466,14 @@ export default function CodeTabsComponent({
                                                   }}
                                                 ></InputFileComponent>
                                               </div>
-                                            ) : node.data.node.template[
-                                                templateField
-                                              ].type === "float" ? (
+                                            </Case>
+
+                                            <Case
+                                              condition={
+                                                type(node, templateField) ===
+                                                "float"
+                                              }
+                                            >
                                               <div className="mx-auto">
                                                 <FloatComponent
                                                   disabled={false}
@@ -513,17 +511,22 @@ export default function CodeTabsComponent({
                                                       target,
                                                       node.data.node.template[
                                                         templateField
-                                                      ],
+                                                      ]
                                                     );
                                                   }}
                                                 />
                                               </div>
-                                            ) : node.data.node.template[
-                                                templateField
-                                              ].type === "str" &&
-                                              node.data.node.template[
-                                                templateField
-                                              ].options ? (
+                                            </Case>
+
+                                            <Case
+                                              condition={
+                                                type(node, templateField) ===
+                                                  "str" &&
+                                                node.data.node.template[
+                                                  templateField
+                                                ].options
+                                              }
+                                            >
                                               <div className="mx-auto">
                                                 <Dropdown
                                                   editNode={true}
@@ -548,7 +551,7 @@ export default function CodeTabsComponent({
                                                       target,
                                                       node.data.node.template[
                                                         templateField
-                                                      ],
+                                                      ]
                                                     );
                                                   }}
                                                   value={
@@ -565,9 +568,14 @@ export default function CodeTabsComponent({
                                                   }
                                                 ></Dropdown>
                                               </div>
-                                            ) : node.data.node.template[
-                                                templateField
-                                              ].type === "int" ? (
+                                            </Case>
+
+                                            <Case
+                                              condition={
+                                                type(node, templateField) ===
+                                                "int"
+                                              }
+                                            >
                                               <div className="mx-auto">
                                                 <IntComponent
                                                   disabled={false}
@@ -605,14 +613,19 @@ export default function CodeTabsComponent({
                                                       target,
                                                       node.data.node.template[
                                                         templateField
-                                                      ],
+                                                      ]
                                                     );
                                                   }}
                                                 />
                                               </div>
-                                            ) : node.data.node.template[
-                                                templateField
-                                              ].type === "prompt" ? (
+                                            </Case>
+
+                                            <Case
+                                              condition={
+                                                type(node, templateField) ===
+                                                "prompt"
+                                              }
+                                            >
                                               <div className="mx-auto">
                                                 <PromptAreaComponent
                                                   readonly={true}
@@ -646,14 +659,19 @@ export default function CodeTabsComponent({
                                                       target,
                                                       node.data.node.template[
                                                         templateField
-                                                      ],
+                                                      ]
                                                     );
                                                   }}
                                                 />
                                               </div>
-                                            ) : node.data.node.template[
-                                                templateField
-                                              ].type === "code" ? (
+                                            </Case>
+
+                                            <Case
+                                              condition={
+                                                type(node, templateField) ===
+                                                "code"
+                                              }
+                                            >
                                               <div className="mx-auto">
                                                 <CodeAreaComponent
                                                   disabled={false}
@@ -687,14 +705,19 @@ export default function CodeTabsComponent({
                                                       target,
                                                       node.data.node.template[
                                                         templateField
-                                                      ],
+                                                      ]
                                                     );
                                                   }}
                                                 />
                                               </div>
-                                            ) : node.data.node.template[
-                                                templateField
-                                              ].type === "dict" ? (
+                                            </Case>
+
+                                            <Case
+                                              condition={
+                                                type(node, templateField) ===
+                                                "dict"
+                                              }
+                                            >
                                               <div className="mx-auto overflow-auto custom-scroll">
                                                 <KeypairListComponent
                                                   disabled={false}
@@ -712,6 +735,10 @@ export default function CodeTabsComponent({
                                                             .template[
                                                             templateField
                                                           ].value,
+                                                          type(
+                                                            node,
+                                                            templateField
+                                                          )
                                                         )
                                                   }
                                                   duplicateKey={
@@ -720,15 +747,15 @@ export default function CodeTabsComponent({
                                                   onChange={(target) => {
                                                     const valueToNumbers =
                                                       convertValuesToNumbers(
-                                                        target,
+                                                        target
                                                       );
                                                     node.data.node!.template[
                                                       templateField
                                                     ].value = valueToNumbers;
                                                     setErrorDuplicateKey(
                                                       hasDuplicateKeys(
-                                                        valueToNumbers,
-                                                      ),
+                                                        valueToNumbers
+                                                      )
                                                     );
                                                     setData((old) => {
                                                       let newInputList =
@@ -745,7 +772,7 @@ export default function CodeTabsComponent({
                                                       target,
                                                       node.data.node.template[
                                                         templateField
-                                                      ],
+                                                      ]
                                                     );
                                                   }}
                                                   isList={
@@ -755,9 +782,14 @@ export default function CodeTabsComponent({
                                                   }
                                                 />
                                               </div>
-                                            ) : node.data.node.template[
-                                                templateField
-                                              ].type === "NestedDict" ? (
+                                            </Case>
+
+                                            <Case
+                                              condition={
+                                                type(node, templateField) ===
+                                                "NestedDict"
+                                              }
+                                            >
                                               <div className="mx-auto">
                                                 <DictComponent
                                                   disabled={false}
@@ -765,10 +797,8 @@ export default function CodeTabsComponent({
                                                   value={
                                                     node.data.node!.template[
                                                       templateField
-                                                    ].value.toString() === "{}"
-                                                      ? {
-                                                          // yourkey: "value",
-                                                        }
+                                                    ].value?.toString() === "{}"
+                                                      ? {}
                                                       : node.data.node!
                                                           .template[
                                                           templateField
@@ -790,18 +820,21 @@ export default function CodeTabsComponent({
                                                       target,
                                                       node.data.node.template[
                                                         templateField
-                                                      ],
+                                                      ]
                                                     );
                                                   }}
                                                 />
                                               </div>
-                                            ) : node.data.node.template[
-                                                templateField
-                                              ].type === "Any" ? (
-                                              "-"
-                                            ) : (
-                                              <div className="hidden"></div>
-                                            )}
+                                            </Case>
+
+                                            <Case
+                                              condition={
+                                                type(node, templateField) ===
+                                                "Any"
+                                              }
+                                            >
+                                              <>-</>
+                                            </Case>
                                           </div>
                                         </TableCell>
                                       </TableRow>

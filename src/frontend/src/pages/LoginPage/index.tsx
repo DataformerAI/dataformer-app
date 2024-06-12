@@ -66,7 +66,7 @@ export default function LoginPage(): JSX.Element {
         <div className="flex w-72 flex-col items-center justify-center gap-2">
           <span className="mb-4 text-5xl">DATAFORMER</span>
           <span className="mb-6 text-2xl font-semibold text-primary">
-            Sign in to Dataformer App
+            Sign in to DataformerApp
           </span>
           <div className="mb-3 w-full">
             <Form.Field name="username">
