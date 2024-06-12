@@ -174,7 +174,7 @@ async def build_vertex(
                 vertex,
             ) = await graph.build_vertex(
                 lock=lock,
-                set_cache_coro=set_cache_coro,
+                chat_service=chat_service,
                 vertex_id=vertex_id,
                 user_id=current_user.id,
                 inputs_dict=inputs.model_dump() if inputs else {},
