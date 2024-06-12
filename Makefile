@@ -7,6 +7,7 @@ port ?= 7860
 env ?= .env
 open_browser ?= true
 path = src/backend/base/dfapp/frontend
+workers ?= 1
 
 codespell:
 	@poetry install --with spelling
@@ -43,12 +44,13 @@ coverage:
 	poetry run pytest --cov \
 		--cov-config=.coveragerc \
 		--cov-report xml \
-		--cov-report term-missing:skip-covered
+		--cov-report term-missing:skip-covered \
+		--cov-report lcov:coverage/lcov-pytest.info
 
 # allow passing arguments to pytest
 tests:
-	poetry run pytest tests --instafail $(args)
-# Use like:
+	poetry run pytest tests --instafail -ra -n auto -m "not api_key_required" $(args)
+
 
 format:
 	poetry run ruff check . --fix
@@ -68,6 +70,7 @@ install_frontendc:
 	cd src/frontend && rm -rf node_modules package-lock.json && npm install
 
 run_frontend:
+	@-kill -9 `lsof -t -i:3000`
 	cd src/frontend && npm start
 
 tests_frontend:
@@ -121,6 +124,7 @@ setup_devcontainer:
 
 setup_env:
 	@sh ./scripts/setup/update_poetry.sh 1.8.2
+	@sh ./scripts/setup/setup_env.sh
 
 frontend:
 	make install_frontend
@@ -132,19 +136,20 @@ frontendc:
 
 install_backend:
 	@echo 'Installing backend dependencies'
-	cd src/backend/base && poetry install
+	@poetry install
+	@poetry run pre-commit install
 
 backend:
 	@echo 'Setting up the environment'
 	@make setup_env
 	make install_backend
-	@-kill -9 `lsof -t -i:7860`
+	@-kill -9 $(lsof -t -i:7860)
 ifdef login
 	@echo "Running backend autologin is $(login)";
-	DFAPP_AUTO_LOGIN=$(login) poetry run uvicorn --factory dfapp.main:create_app --host 0.0.0.0 --port 7860 --reload --env-file .env --loop asyncio
+	DFAPP_AUTO_LOGIN=$(login) poetry run uvicorn --factory dfapp.main:create_app --host 0.0.0.0 --port 7860 --reload --env-file .env --loop asyncio --workers $(workers)
 else
 	@echo "Running backend respecting the .env file";
-	cd src/backend/base && poetry run uvicorn --factory dfapp.main:create_app --host 0.0.0.0 --port 7860 --reload --env-file .env  --loop asyncio
+	poetry run uvicorn --factory dfapp.main:create_app --host 0.0.0.0 --port 7860 --reload --env-file .env  --loop asyncio --workers $(workers)
 endif
 
 build_and_run:
@@ -164,6 +169,7 @@ build_and_install:
 
 build_frontend:
 	cd src/frontend && CI='' npm run build
+	rm -rf src/backend/base/dfapp/frontend
 	cp -r src/frontend/build src/backend/base/dfapp/frontend
 
 build:
