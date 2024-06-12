@@ -18,6 +18,11 @@ CACHE_DIR = user_cache_dir("dfapp", "dfapp")
 
 PREFIX = "dfapp_cache"
 
+class CacheMiss:
+    def __repr__(self):
+        return "<CACHE_MISS>"
+
+
 
 def create_cache_folder(func):
     def wrapper(*args, **kwargs):

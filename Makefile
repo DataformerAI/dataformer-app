@@ -68,7 +68,6 @@ install_frontendc:
 	cd src/frontend && rm -rf node_modules package-lock.json && npm install
 
 run_frontend:
-	@-kill -9 `lsof -t -i:3000`
 	cd src/frontend && npm start
 
 tests_frontend:
@@ -122,7 +121,6 @@ setup_devcontainer:
 
 setup_env:
 	@sh ./scripts/setup/update_poetry.sh 1.8.2
-	@sh ./scripts/setup/setup_env.sh
 
 frontend:
 	make install_frontend
@@ -134,8 +132,7 @@ frontendc:
 
 install_backend:
 	@echo 'Installing backend dependencies'
-	@poetry install
-	@poetry run pre-commit install
+	cd src/backend/base && poetry install
 
 backend:
 	@echo 'Setting up the environment'
@@ -147,7 +144,7 @@ ifdef login
 	DFAPP_AUTO_LOGIN=$(login) poetry run uvicorn --factory dfapp.main:create_app --host 0.0.0.0 --port 7860 --reload --env-file .env --loop asyncio
 else
 	@echo "Running backend respecting the .env file";
-	poetry run uvicorn --factory dfapp.main:create_app --host 0.0.0.0 --port 7860 --reload --env-file .env  --loop asyncio
+	cd src/backend/base && poetry run uvicorn --factory dfapp.main:create_app --host 0.0.0.0 --port 7860 --reload --env-file .env  --loop asyncio
 endif
 
 build_and_run:
