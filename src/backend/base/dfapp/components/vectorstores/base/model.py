@@ -4,9 +4,9 @@ from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.vectorstores import VectorStore
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import Text
 from dfapp.helpers.record import docs_to_records
-from dfapp.interface.custom.custom_component import CustomComponent
 from dfapp.schema import Record
 
 

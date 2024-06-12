@@ -4,7 +4,7 @@ from dfapp.template.field.base import TemplateField
 from dfapp.template.frontend_node.base import FrontendNode
 from dfapp.template.template.base import Template
 
-DEFAULT_CUSTOM_COMPONENT_CODE = """from dfapp.interface.custom.custom_component import CustomComponent
+DEFAULT_CUSTOM_COMPONENT_CODE = """from dfapp.custom import CustomComponent
 
 from typing import Optional, List, Dict, Union
 from dfapp.field_typing import (

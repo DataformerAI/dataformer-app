@@ -2,7 +2,7 @@ from typing import Optional
 
 from langchain_community.llms.baidu_qianfan_endpoint import QianfanLLMEndpoint
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import BaseLanguageModel
 
 

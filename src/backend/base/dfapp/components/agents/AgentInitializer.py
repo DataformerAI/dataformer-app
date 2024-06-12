@@ -3,7 +3,7 @@ from typing import Callable, List, Optional, Union
 from langchain.agents import AgentExecutor, AgentType, initialize_agent, types
 
 from dfapp.field_typing import BaseChatMemory, BaseLanguageModel, Tool
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 
 
 class AgentInitializerComponent(CustomComponent):

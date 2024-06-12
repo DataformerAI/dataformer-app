@@ -1,12 +1,9 @@
 from typing import List, Optional, Union
 
-from langchain.schema import BaseRetriever
-from langchain_astradb import AstraDBVectorStore
-from langchain_astradb.utils.astradb import SetupMode
-
 from dfapp.custom import CustomComponent
 from dfapp.field_typing import Embeddings, VectorStore
 from dfapp.schema import Record
+from langchain_core.retrievers import BaseRetriever
 
 
 class AstraDBVectorStoreComponent(CustomComponent):
@@ -113,6 +110,15 @@ class AstraDBVectorStoreComponent(CustomComponent):
         collection_indexing_policy: Optional[dict] = None,
     ) -> Union[VectorStore, BaseRetriever]:
         try:
+            from langchain_astradb import AstraDBVectorStore
+            from langchain_astradb.utils.astradb import SetupMode
+        except ImportError:
+            raise ImportError(
+                "Could not import langchain Astra DB integration package. "
+                "Please install it with `pip install langchain-astradb`."
+            )
+
+        try:
             setup_mode_value = SetupMode[setup_mode.upper()]
         except KeyError:
             raise ValueError(f"Invalid setup mode: {setup_mode}")
@@ -156,4 +162,5 @@ class AstraDBVectorStoreComponent(CustomComponent):
                 collection_indexing_policy=collection_indexing_policy,
             )
 
+        return vector_store
         return vector_store

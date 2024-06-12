@@ -1,6 +1,6 @@
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import Text
 from dfapp.helpers.record import records_to_text
-from dfapp.interface.custom.custom_component import CustomComponent
 from dfapp.schema import Record
 
 
@@ -17,6 +17,7 @@ class RecordsToTextComponent(CustomComponent):
             "template": {
                 "display_name": "Template",
                 "info": "The template to use for formatting the records. It can contain the keys {text}, {data} or any other key in the Record.",
+                "multiline": True,
             },
         }
 

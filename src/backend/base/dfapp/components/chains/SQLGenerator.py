@@ -5,8 +5,8 @@ from langchain_community.utilities.sql_database import SQLDatabase
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import Runnable
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import BaseLanguageModel, Text
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class SQLGeneratorComponent(CustomComponent):

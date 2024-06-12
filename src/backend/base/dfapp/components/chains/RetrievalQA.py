@@ -3,9 +3,9 @@ from typing import Optional
 from langchain.chains.retrieval_qa.base import RetrievalQA
 from langchain_core.documents import Document
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import BaseLanguageModel, BaseMemory, BaseRetriever, Text
-from dfapp.interface.custom.custom_component import CustomComponent
-from dfapp.schema.schema import Record
+from dfapp.schema import Record
 
 
 class RetrievalQAComponent(CustomComponent):

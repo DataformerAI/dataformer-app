@@ -3,8 +3,8 @@ from typing import Optional
 from langchain.chains import RetrievalQAWithSourcesChain
 from langchain_core.documents import Document
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import BaseLanguageModel, BaseMemory, BaseRetriever, Text
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class RetrievalQAWithSourcesChainComponent(CustomComponent):

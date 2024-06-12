@@ -2,8 +2,8 @@ from typing import Optional
 
 from langchain.chains import LLMChain, LLMMathChain
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import BaseLanguageModel, BaseMemory, Text
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class LLMMathChainComponent(CustomComponent):

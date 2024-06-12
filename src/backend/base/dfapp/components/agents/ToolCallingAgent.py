@@ -5,7 +5,7 @@ from langchain_core.prompts import ChatPromptTemplate
 
 from dfapp.base.agents.agent import LCAgentComponent
 from dfapp.field_typing import BaseLanguageModel, Text, Tool
-from dfapp.schema.schema import Record
+from dfapp.schema import Record
 
 
 class ToolCallingAgentComponent(LCAgentComponent):

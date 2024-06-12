@@ -13,7 +13,7 @@
 
 from langchain_core.documents import Document
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 from dfapp.services.database.models.base import orjson_dumps
 
 

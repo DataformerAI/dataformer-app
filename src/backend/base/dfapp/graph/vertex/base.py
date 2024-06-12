@@ -4,17 +4,17 @@ import inspect
 import os
 import types
 from enum import Enum
-from typing import TYPE_CHECKING, Any, AsyncIterator, Callable, Dict, Iterator, List, Optional
+from typing import TYPE_CHECKING, Any, AsyncIterator, Callable, Dict, Iterator, List, Mapping, Optional
 
 from loguru import logger
 
 from dfapp.graph.schema import INPUT_COMPONENTS, OUTPUT_COMPONENTS, InterfaceComponentTypes, ResultData
-from dfapp.graph.utils import UnbuiltObject, UnbuiltResult
-from dfapp.graph.vertex.utils import generate_result
+from dfapp.graph.utils import ArtifactType, UnbuiltObject, UnbuiltResult
 from dfapp.interface.initialize import loading
 from dfapp.interface.listing import lazy_load_dict
 from dfapp.schema.schema import INPUT_FIELD_NAME
 from dfapp.services.deps import get_storage_service
+from dfapp.services.monitor.utils import log_transaction
 from dfapp.utils.constants import DIRECT_TYPES
 from dfapp.utils.schemas import ChatOutputResponse
 from dfapp.utils.util import sync_to_async, unescape_string
@@ -63,6 +63,8 @@ class Vertex:
         self._built_result = None
         self._built = False
         self.artifacts: Dict[str, Any] = {}
+        self.artifacts_raw: Any = None
+        self.artifacts_type: Optional[str] = None
         self.steps: List[Callable] = [self._build]
         self.steps_ran: List[Callable] = []
         self.task_id: Optional[str] = None
@@ -315,7 +317,11 @@ class Vertex:
                     params[field_name] = full_path
                 elif field.get("required"):
                     field_display_name = field.get("display_name")
-                    raise ValueError(f"File path not found for {field_display_name} in component {self.display_name}")
+                    logger.warning(
+                        f"File path not found for {field_display_name} in component {self.display_name}. Setting to None."
+                    )
+                    params[field_name] = None
+
             elif field.get("type") in DIRECT_TYPES and params.get(field_name) is None:
                 val = field.get("value")
                 if field.get("type") == "code":
@@ -367,7 +373,7 @@ class Vertex:
         self.load_from_db_fields = load_from_db_fields
         self._raw_params = params.copy()
 
-    def update_raw_params(self, new_params: Dict[str, str], overwrite: bool = False):
+    def update_raw_params(self, new_params: Mapping[str, str | list[str]], overwrite: bool = False):
         """
         Update the raw parameters of the vertex with the given new parameters.
 
@@ -390,7 +396,11 @@ class Vertex:
         self.params = self._raw_params.copy()
         self.updated_raw_params = True
 
-    async def _build(self,fallback_to_env_vars, user_id=None):
+    async def _build(
+        self,
+        fallback_to_env_vars,
+        user_id=None,
+    ):
         """
         Initiate the build process.
         """
@@ -414,11 +424,14 @@ class Vertex:
         try:
             messages = [
                 ChatOutputResponse(
-                    message=artifacts["message"],
+                    message=artifacts["text"],
                     sender=artifacts.get("sender"),
                     sender_name=artifacts.get("sender_name"),
                     session_id=artifacts.get("session_id"),
+                    stream_url=artifacts.get("stream_url"),
+                    files=[{"path": file} if isinstance(file, str) else file for file in artifacts.get("files", [])],
                     component_id=self.id,
+                    type=self.artifacts_type,
                 ).model_dump(exclude_none=True)
             ]
         except KeyError:
@@ -431,8 +444,11 @@ class Vertex:
         # We need to set the artifacts to pass information
         # to the frontend
         self.set_artifacts()
-        artifacts = self.artifacts
-        messages = self.extract_messages_from_artifacts(artifacts)
+        artifacts = self.artifacts_raw
+        if isinstance(artifacts, dict):
+            messages = self.extract_messages_from_artifacts(artifacts)
+        else:
+            messages = []
         result_dict = ResultData(
             results=result_dict,
             artifacts=artifacts,
@@ -441,29 +457,6 @@ class Vertex:
             component_id=self.id,
         )
         self.set_result(result_dict)
-
-    async def _run(
-        self,
-        user_id: str,
-        inputs: Optional[dict] = None,
-        session_id: Optional[str] = None,
-    ):
-        # user_id is just for compatibility with the other build methods
-        inputs = inputs or {}
-        # inputs = {key: value or "" for key, value in inputs.items()}
-        # if hasattr(self._built_object, "input_keys"):
-        #     # test if all keys are in inputs
-        #     # and if not add them with empty string
-        #     # for key in self._built_object.input_keys:
-        #     #     if key not in inputs:
-        #     #         inputs[key] = ""
-        #     if inputs == {} and hasattr(self._built_object, "prompt"):
-        #         inputs = self._built_object.prompt.partial_variables
-        if isinstance(self._built_object, str):
-            self._built_result = self._built_object
-
-        result = await generate_result(self._built_object, inputs, self.has_external_output, session_id)
-        self._built_result = result
 
     async def _build_each_vertex_in_params_dict(self, user_id=None):
         """
@@ -500,7 +493,7 @@ class Vertex:
             if not self._is_vertex(value):
                 self.params[key][sub_key] = value
             else:
-                result = await value.get_result()
+                result = await value.get_result(self)
                 self.params[key][sub_key] = result
 
     def _is_vertex(self, value):
@@ -515,9 +508,7 @@ class Vertex:
         """
         return all(self._is_vertex(vertex) for vertex in value)
 
-    async def get_result(
-        self,
-    ) -> Any:
+    async def get_result(self, requester: "Vertex") -> Any:
         """
         Retrieves the result of the vertex.
 
@@ -527,9 +518,9 @@ class Vertex:
             The result of the vertex.
         """
         async with self._lock:
-            return await self._get_result()
+            return await self._get_result(requester)
 
-    async def _get_result(self) -> Any:
+    async def _get_result(self, requester: "Vertex") -> Any:
         """
         Retrieves the result of the built component.
 
@@ -538,16 +529,21 @@ class Vertex:
         Returns:
             The built result if use_result is True, else the built object.
         """
+        flow_id = self.graph.flow_id
         if not self._built:
+            log_transaction(flow_id, vertex=self, target=requester, status="error")
             raise ValueError(f"Component {self.display_name} has not been built yet")
-        return self._built_result if self.use_result else self._built_object
+
+        result = self._built_result if self.use_result else self._built_object
+        log_transaction(flow_id, vertex=self, target=requester, status="success")
+        return result
 
     async def _build_vertex_and_update_params(self, key, vertex: "Vertex"):
         """
         Builds a given vertex and updates the params dictionary accordingly.
         """
 
-        result = await vertex.get_result()
+        result = await vertex.get_result(self)
         self._handle_func(key, result)
         if isinstance(result, list):
             self._extend_params_list_with_result(key, result)
@@ -563,7 +559,7 @@ class Vertex:
         """
         self.params[key] = []
         for vertex in vertices:
-            result = await vertex.get_result()
+            result = await vertex.get_result(self)
             # Weird check to see if the params[key] is a list
             # because sometimes it is a Record and breaks the code
             if not isinstance(self.params[key], list):
@@ -633,6 +629,8 @@ class Vertex:
                 self._built_object, self.artifacts = result
             elif len(result) == 3:
                 self._custom_component, self._built_object, self.artifacts = result
+                self.artifacts_raw = self.artifacts.get("raw", None)
+                self.artifacts_type = self.artifacts.get("type", None) or ArtifactType.UNKNOWN.value
         else:
             self._built_object = result
 
@@ -673,6 +671,7 @@ class Vertex:
         self,
         user_id=None,
         inputs: Optional[Dict[str, Any]] = None,
+        files: Optional[list[str]] = None,
         requester: Optional["Vertex"] = None,
         **kwargs,
     ) -> Any:
@@ -690,9 +689,14 @@ class Vertex:
                 return await self.get_requester_result(requester)
             self._reset()
 
-            if self._is_chat_input() and inputs:
-                inputs = {"input_value": inputs.get(INPUT_FIELD_NAME, "")}
-                self.update_raw_params(inputs, overwrite=True)
+            if self._is_chat_input() and (inputs or files):
+                chat_input = {}
+                if inputs:
+                    chat_input.update({"input_value": inputs.get(INPUT_FIELD_NAME, "")})
+                if files:
+                    chat_input.update({"files": files})
+
+                self.update_raw_params(chat_input, overwrite=True)
 
             # Run steps
             for step in self.steps:
@@ -705,7 +709,8 @@ class Vertex:
 
             self._finalize_build()
 
-        return await self.get_requester_result(requester)
+        result = await self.get_requester_result(requester)
+        return result
 
     async def get_requester_result(self, requester: Optional["Vertex"]):
         # If the requester is None, this means that

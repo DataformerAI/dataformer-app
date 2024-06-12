@@ -5,7 +5,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 
 
 class CustomComponentPathValueError(ValueError):

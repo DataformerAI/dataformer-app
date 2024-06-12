@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Optional
 
 from dfapp.base.memory.memory import BaseMemoryComponent
 from dfapp.field_typing import Text
-from dfapp.schema.schema import Record
+from dfapp.schema import Record
 
 if TYPE_CHECKING:
     from zep_python.langchain import ZepChatMessageHistory

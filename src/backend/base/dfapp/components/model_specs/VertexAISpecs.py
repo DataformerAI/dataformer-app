@@ -1,9 +1,9 @@
 from typing import Dict, Optional
 
-from dfapp.field_typing import BaseLanguageModel
 from langchain_community.llms.vertexai import VertexAI
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
+from dfapp.field_typing import BaseLanguageModel
 
 
 class VertexAIComponent(CustomComponent):

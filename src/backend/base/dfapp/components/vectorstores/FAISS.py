@@ -1,12 +1,12 @@
 from typing import List, Text, Union
 
-from langchain.schema import BaseRetriever
-from langchain_community.vectorstores import VectorStore
 from langchain_community.vectorstores.faiss import FAISS
+from langchain_core.retrievers import BaseRetriever
+from langchain_core.vectorstores import VectorStore
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import Embeddings
-from dfapp.interface.custom.custom_component import CustomComponent
-from dfapp.schema.schema import Record
+from dfapp.schema import Record
 
 
 class FAISSComponent(CustomComponent):
@@ -20,7 +20,7 @@ class FAISSComponent(CustomComponent):
             "embedding": {"display_name": "Embedding"},
             "folder_path": {
                 "display_name": "Folder Path",
-                "info": "Path to save the FAISS index. It will be relative to where Dataformer App is running.",
+                "info": "Path to save the FAISS index. It will be relative to where DataformerApp is running.",
             },
             "index_name": {"display_name": "Index Name"},
         }

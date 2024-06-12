@@ -1,10 +1,10 @@
 from fastapi import HTTPException
-from langchain.prompts import PromptTemplate
 from loguru import logger
 
 from dfapp.api.v1.base import INVALID_NAMES, check_input_variables
 from dfapp.interface.utils import extract_input_variables_from_prompt
 from dfapp.template.field.prompt import DefaultPromptField
+from langchain_core.prompts import PromptTemplate
 
 
 def validate_prompt(prompt_template: str, silent_errors: bool = False) -> list[str]:

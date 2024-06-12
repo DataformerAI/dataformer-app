@@ -17,7 +17,7 @@ class FAISSSearchComponent(LCVectorStoreComponent):
             "embedding": {"display_name": "Embedding"},
             "folder_path": {
                 "display_name": "Folder Path",
-                "info": "Path to save the FAISS index. It will be relative to where Dataformer App is running.",
+                "info": "Path to save the FAISS index. It will be relative to where DataformerApp is running.",
             },
             "input_value": {"display_name": "Input"},
             "index_name": {"display_name": "Index Name"},

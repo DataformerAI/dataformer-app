@@ -1,13 +1,14 @@
 from typing import Optional, Union
 
 import weaviate  # type: ignore
-from langchain.embeddings.base import Embeddings
-from langchain.schema import BaseRetriever
-from langchain_community.vectorstores import VectorStore, Weaviate
+from langchain_community.vectorstores import Weaviate
 from langchain_core.documents import Document
+from langchain_core.embeddings import Embeddings
+from langchain_core.retrievers import BaseRetriever
+from langchain_core.vectorstores import VectorStore
 
-from dfapp.interface.custom.custom_component import CustomComponent
-from dfapp.schema.schema import Record
+from dfapp.custom import CustomComponent
+from dfapp.schema import Record
 
 
 class WeaviateVectorStoreComponent(CustomComponent):

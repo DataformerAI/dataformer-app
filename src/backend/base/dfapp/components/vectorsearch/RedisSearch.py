@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from langchain.embeddings.base import Embeddings
+from langchain_core.embeddings import Embeddings
 
 from dfapp.components.vectorstores.base.model import LCVectorStoreComponent
 from dfapp.components.vectorstores.Redis import RedisComponent

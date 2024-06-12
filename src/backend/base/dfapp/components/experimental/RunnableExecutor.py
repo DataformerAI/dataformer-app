@@ -1,7 +1,7 @@
 from langchain_core.runnables import Runnable
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import Text
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class RunnableExecComponent(CustomComponent):

@@ -1,9 +1,10 @@
 from typing import List, Optional
 
 from langchain_community.vectorstores.mongodb_atlas import MongoDBAtlasVectorSearch
+
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import Embeddings
-from dfapp.interface.custom.custom_component import CustomComponent
-from dfapp.schema.schema import Record
+from dfapp.schema import Record
 
 
 class MongoDBAtlasComponent(CustomComponent):

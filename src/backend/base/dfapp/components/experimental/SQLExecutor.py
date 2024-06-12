@@ -1,8 +1,8 @@
 from langchain_community.tools.sql_database.tool import QuerySQLDataBaseTool
 from langchain_community.utilities import SQLDatabase
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import Text
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class SQLExecutorComponent(CustomComponent):

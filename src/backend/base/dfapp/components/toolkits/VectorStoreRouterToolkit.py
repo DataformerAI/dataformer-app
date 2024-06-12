@@ -2,8 +2,8 @@ from typing import List, Union
 
 from langchain.agents.agent_toolkits.vectorstore.toolkit import VectorStoreInfo, VectorStoreRouterToolkit
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import BaseLanguageModel, Tool
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class VectorStoreRouterToolkitComponent(CustomComponent):

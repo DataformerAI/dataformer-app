@@ -1,8 +1,9 @@
 from typing import Optional, Union
 
-from dfapp.interface.custom.custom_component import CustomComponent
-from dfapp.schema import Record
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import Text
+from dfapp.schema import Record
+
 
 class TextOperatorComponent(CustomComponent):
     display_name = "Text Operator"
@@ -21,14 +22,7 @@ class TextOperatorComponent(CustomComponent):
             "operator": {
                 "display_name": "Operator",
                 "info": "The operator to apply for comparing the texts.",
-                "options": [
-                    "equals",
-                    "not equals",
-                    "contains",
-                    "starts with",
-                    "ends with",
-                    "exists"
-                ],
+                "options": ["equals", "not equals", "contains", "starts with", "ends with", "exists"],
             },
             "case_sensitive": {
                 "display_name": "Case Sensitive",
@@ -51,11 +45,8 @@ class TextOperatorComponent(CustomComponent):
         case_sensitive: bool = False,
         true_output: Optional[Text] = "",
     ) -> Union[Text, Record]:
-
         if not input_text or not match_text:
-            raise ValueError(
-                "Both 'input_text' and 'match_text' must be provided and non-empty."
-            )
+            raise ValueError("Both 'input_text' and 'match_text' must be provided and non-empty.")
 
         if not case_sensitive:
             input_text = input_text.lower()

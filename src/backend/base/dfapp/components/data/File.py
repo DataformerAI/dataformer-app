@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 from dfapp.base.data.utils import TEXT_FILE_TYPES, parse_text_file_to_record
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 from dfapp.schema import Record
 
 

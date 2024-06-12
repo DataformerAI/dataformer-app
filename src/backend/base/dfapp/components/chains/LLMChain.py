@@ -1,10 +1,10 @@
 from typing import Optional
 
 from langchain.chains.llm import LLMChain
-
-from dfapp.field_typing import BaseLanguageModel, BaseMemory, Text
-from dfapp.interface.custom.custom_component import CustomComponent
 from langchain_core.prompts import PromptTemplate
+
+from dfapp.custom import CustomComponent
+from dfapp.field_typing import BaseLanguageModel, BaseMemory, Text
 
 
 class LLMChainComponent(CustomComponent):

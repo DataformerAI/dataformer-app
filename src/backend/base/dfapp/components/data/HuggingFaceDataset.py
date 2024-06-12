@@ -1,4 +1,4 @@
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 from datasets import load_dataset, DatasetDict
 from typing import Optional
 

@@ -1,11 +1,11 @@
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 # from langchain_community.chat_models import ChatOllama
 from langchain_community.chat_models import ChatOllama
 from langchain_core.language_models.chat_models import BaseChatModel
 
 # from langchain.chat_models import ChatOllama
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 
 # from langchain.callbacks.manager import CallbackManager
 
@@ -38,7 +38,7 @@ class ChatOllamaComponent(CustomComponent):
                 "advanced": True,
                 "value": False,
             },
-            ### When a callback component is added to Dataformer App, the comment must be uncommented. ###
+            ### When a callback component is added to DataformerApp, the comment must be uncommented. ###
             # "callback_manager": {
             #     "display_name": "Callback Manager",
             #     "info": "Optional callback manager for additional functionality.",
@@ -172,7 +172,7 @@ class ChatOllamaComponent(CustomComponent):
         mirostat: Optional[str],
         mirostat_eta: Optional[float] = None,
         mirostat_tau: Optional[float] = None,
-        ### When a callback component is added to Dataformer App, the comment must be uncommented.###
+        ### When a callback component is added to DataformerApp, the comment must be uncommented.###
         # callback_manager: Optional[CallbackManager] = None,
         # callbacks: Optional[List[Callbacks]] = None,
         #######################################################################################
@@ -182,7 +182,7 @@ class ChatOllamaComponent(CustomComponent):
         num_ctx: Optional[int] = None,
         num_gpu: Optional[int] = None,
         format: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[Dict] = None,
         num_thread: Optional[int] = None,
         repeat_penalty: Optional[float] = None,
         stop: Optional[List[str]] = None,
@@ -218,7 +218,7 @@ class ChatOllamaComponent(CustomComponent):
             "format": format,
             "metadata": metadata,
             "tags": tags,
-            ## When a callback component is added to Dataformer App, the comment must be uncommented.##
+            ## When a callback component is added to DataformerApp, the comment must be uncommented.##
             # "callback_manager": callback_manager,
             # "callbacks": callbacks,
             #####################################################################################

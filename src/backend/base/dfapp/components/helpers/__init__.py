@@ -5,8 +5,6 @@ from .IDGenerator import UUIDGeneratorComponent
 from .MessageHistory import MessageHistoryComponent
 from .UpdateRecord import UpdateRecordComponent
 from .RecordsToText import RecordsToTextComponent
-from .TextToJson import TextToJsonComponent
-from .JsonToDatasetDict import JsonToDatasetDictComponent
 
 __all__ = [
     "Component",
@@ -16,6 +14,4 @@ __all__ = [
     "RecordsToTextComponent",
     "CreateRecordComponent",
     "MessageHistoryComponent",
-    "TextToJsonComponent",
-    "JsonToDatasetDictComponent",
 ]

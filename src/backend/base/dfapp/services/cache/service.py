@@ -221,7 +221,7 @@ class RedisCache(CacheService):
         except ImportError as exc:
             raise ImportError(
                 "RedisCache requires the redis-py package."
-                " Please install Dataformer App with the deploy extra: pip install dfapp[deploy]"
+                " Please install DataformerApp with the deploy extra: pip install dfapp[deploy]"
             ) from exc
         logger.warning(
             "RedisCache is an experimental feature and may not work as expected."

@@ -1,6 +1,6 @@
 # from dfapp.field_typing import Data
+from dfapp.custom import CustomComponent
 from dfapp.schema import Record
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class Component(CustomComponent):

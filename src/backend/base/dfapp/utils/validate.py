@@ -159,7 +159,10 @@ def create_class(code, class_name):
 
     # Replace from dfapp import CustomComponent with from dfapp.custom import CustomComponent
     code = code.replace("from dfapp import CustomComponent", "from dfapp.custom import CustomComponent")
-
+    code = code.replace(
+        "from dfapp.custom import CustomComponent",
+        "from dfapp.custom import CustomComponent",
+    )
     module = ast.parse(code)
     exec_globals = prepare_global_scope(code, module)
 

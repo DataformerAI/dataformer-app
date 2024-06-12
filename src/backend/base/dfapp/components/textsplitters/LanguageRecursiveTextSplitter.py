@@ -1,9 +1,9 @@
 from typing import List, Optional
 
-from langchain.text_splitter import Language
+from langchain_text_splitters import Language, RecursiveCharacterTextSplitter
 
-from dfapp.interface.custom.custom_component import CustomComponent
-from dfapp.schema.schema import Record
+from dfapp.custom import CustomComponent
+from dfapp.schema import Record
 
 
 class LanguageRecursiveTextSplitterComponent(CustomComponent):
@@ -61,7 +61,6 @@ class LanguageRecursiveTextSplitterComponent(CustomComponent):
         Returns:
             list[str]: The chunks of text.
         """
-        from langchain.text_splitter import RecursiveCharacterTextSplitter
 
         # Make sure chunk_size and chunk_overlap are ints
         if isinstance(chunk_size, str):

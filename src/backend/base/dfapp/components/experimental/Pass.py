@@ -1,7 +1,9 @@
 from typing import Union
-from dfapp.interface.custom.custom_component import CustomComponent
-from dfapp.schema import Record
+
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import Text
+from dfapp.schema import Record
+
 
 class PassComponent(CustomComponent):
     display_name = "Pass"
@@ -19,7 +21,7 @@ class PassComponent(CustomComponent):
                 "display_name": "Input",
                 "info": "This input is forwarded by the component.",
                 "input_types": ["Text", "Record"],
-            }
+            },
         }
 
     def build(self, ignored_input: Text, forwarded_input: Text) -> Union[Text, Record]:

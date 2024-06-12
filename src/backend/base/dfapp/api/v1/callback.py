@@ -1,13 +1,12 @@
 from typing import TYPE_CHECKING, Any, Dict, List, Optional
 from uuid import UUID
-
-from langchain.schema import AgentAction, AgentFinish
 from langchain_core.callbacks.base import AsyncCallbackHandler
 from loguru import logger
 
 from dfapp.api.v1.schemas import ChatResponse, PromptResponse
 from dfapp.services.deps import get_chat_service, get_socket_service
 from dfapp.utils.util import remove_ansi_escape_codes
+from langchain_core.agents import AgentAction, AgentFinish
 
 if TYPE_CHECKING:
     from dfapp.services.socket.service import SocketIOService

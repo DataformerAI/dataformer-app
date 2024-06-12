@@ -1,7 +1,7 @@
 from langchain_core.vectorstores import VectorStoreRetriever
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import VectorStore
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class VectoStoreRetrieverComponent(CustomComponent):

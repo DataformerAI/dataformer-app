@@ -3,8 +3,8 @@ from typing import Callable, Union
 from langchain.agents import AgentExecutor, create_vectorstore_agent
 from langchain.agents.agent_toolkits.vectorstore.toolkit import VectorStoreToolkit
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import BaseLanguageModel
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class VectorStoreAgentComponent(CustomComponent):

@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 from langchain_community.document_loaders.web_base import WebBaseLoader
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 from dfapp.schema import Record
 
 
@@ -20,7 +20,7 @@ class URLComponent(CustomComponent):
         self,
         urls: list[str],
     ) -> list[Record]:
-        loader = WebBaseLoader(web_paths=urls)
+        loader = WebBaseLoader(web_paths=[url for url in urls if url])
         docs = loader.load()
         records = self.to_records(docs)
         self.status = records

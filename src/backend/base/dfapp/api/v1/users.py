@@ -13,6 +13,7 @@ from dfapp.services.auth.utils import (
     get_password_hash,
     verify_password,
 )
+from dfapp.services.database.models.folder.utils import create_default_folder_if_it_doesnt_exist
 from dfapp.services.database.models.user import User, UserCreate, UserRead, UserUpdate
 from dfapp.services.database.models.user.crud import get_user_by_id, update_user
 from dfapp.services.deps import get_session, get_settings_service
@@ -36,6 +37,9 @@ def add_user(
         session.add(new_user)
         session.commit()
         session.refresh(new_user)
+        folder = create_default_folder_if_it_doesnt_exist(session, new_user.id)
+        if not folder:
+            raise HTTPException(status_code=500, detail="Error creating default folder")
     except IntegrityError as e:
         session.rollback()
         raise HTTPException(status_code=400, detail="This username is unavailable.") from e

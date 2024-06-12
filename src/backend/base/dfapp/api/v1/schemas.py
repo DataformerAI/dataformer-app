@@ -9,7 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_serial
 from dfapp.graph.schema import RunOutputs
 from dfapp.schema import dotdict
 from dfapp.schema.graph import Tweaks
-from dfapp.schema.schema import InputType, OutputType
+from dfapp.schema.schema import InputType, Log, OutputType
 from dfapp.services.database.models.api_key.model import ApiKeyRead
 from dfapp.services.database.models.base import orjson_dumps
 from dfapp.services.database.models.flow import FlowCreate, FlowRead
@@ -139,8 +139,18 @@ class FlowListCreate(BaseModel):
     flows: List[FlowCreate]
 
 
+class FlowListIds(BaseModel):
+    flow_ids: List[str]
+
+
 class FlowListRead(BaseModel):
     flows: List[FlowRead]
+
+
+class FlowListReadWithFolderName(BaseModel):
+    flows: List[FlowRead]
+    name: str
+    description: str
 
 
 class InitResponse(BaseModel):
@@ -235,6 +245,8 @@ class VerticesOrderResponse(BaseModel):
 
 class ResultDataResponse(BaseModel):
     results: Optional[Any] = Field(default_factory=dict)
+    logs: List[Log | None] = Field(default_factory=list)
+    message: Optional[Any] = Field(default_factory=dict)
     artifacts: Optional[Any] = Field(default_factory=dict)
     timedelta: Optional[float] = None
     duration: Optional[str] = None
@@ -307,3 +319,7 @@ class FlowDataRequest(BaseModel):
     nodes: List[dict]
     edges: List[dict]
     viewport: Optional[dict] = None
+
+
+class ConfigResponse(BaseModel):
+    frontend_timeout: int

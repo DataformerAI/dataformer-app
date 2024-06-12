@@ -1,15 +1,17 @@
 from enum import Enum
 from typing import Any, List, Optional
 
-from pydantic import BaseModel, Field, field_serializer
+from pydantic import BaseModel, Field, field_serializer, model_validator
 
 from dfapp.graph.utils import serialize_field
+from dfapp.schema.schema import Log, StreamURL
 from dfapp.utils.schemas import ChatOutputResponse, ContainsEnumMeta
 
 
 class ResultData(BaseModel):
     results: Optional[Any] = Field(default_factory=dict)
     artifacts: Optional[Any] = Field(default_factory=dict)
+    logs: Optional[List[dict]] = Field(default_factory=list)
     messages: Optional[list[ChatOutputResponse]] = Field(default_factory=list)
     timedelta: Optional[float] = None
     duration: Optional[str] = None
@@ -23,6 +25,24 @@ class ResultData(BaseModel):
             return {key: serialize_field(val) for key, val in value.items()}
         return serialize_field(value)
 
+    @model_validator(mode="before")
+    @classmethod
+    def validate_model(cls, values):
+        if not values.get("logs") and values.get("artifacts"):
+            # Build the log from the artifacts
+            message = values["artifacts"]
+
+            # ! Temporary fix
+            if not isinstance(message, dict):
+                message = {"message": message}
+
+            if "stream_url" in message and "type" in message:
+                stream_url = StreamURL(location=message["stream_url"])
+                values["logs"] = [Log(message=stream_url, type=message["type"])]
+            elif "type" in message:
+                values["logs"] = [Log(message=message, type=message["type"])]
+        return values
+
 
 class InterfaceComponentTypes(str, Enum, metaclass=ContainsEnumMeta):
     # ChatInput and ChatOutput are the only ones that are
@@ -31,6 +51,7 @@ class InterfaceComponentTypes(str, Enum, metaclass=ContainsEnumMeta):
     ChatOutput = "ChatOutput"
     TextInput = "TextInput"
     TextOutput = "TextOutput"
+    RecordsOutput = "RecordsOutput"
 
     def __contains__(cls, item):
         try:
@@ -41,6 +62,8 @@ class InterfaceComponentTypes(str, Enum, metaclass=ContainsEnumMeta):
             return True
 
 
+CHAT_COMPONENTS = [InterfaceComponentTypes.ChatInput, InterfaceComponentTypes.ChatOutput]
+RECORDS_COMPONENTS = [InterfaceComponentTypes.RecordsOutput]
 INPUT_COMPONENTS = [
     InterfaceComponentTypes.ChatInput,
     InterfaceComponentTypes.TextInput,

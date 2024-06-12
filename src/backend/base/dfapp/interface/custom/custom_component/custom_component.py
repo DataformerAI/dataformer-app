@@ -13,7 +13,7 @@ from dfapp.interface.custom.code_parser.utils import (
     extract_inner_type_from_generic_alias,
     extract_union_types_from_generic_alias,
 )
-from dfapp.interface.custom.custom_component.component import Component
+from dfapp.custom.component import Component
 from dfapp.schema import Record
 from dfapp.schema.dotdict import dotdict
 from dfapp.services.deps import get_storage_service, get_variable_service, session_scope

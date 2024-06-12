@@ -5,7 +5,7 @@ from loguru import logger
 from dfapp.interface.base import LangChainTypeCreator
 
 # from dfapp.interface.custom.custom import CustomComponent
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 from dfapp.template.frontend_node.custom_components import CustomComponentFrontendNode
 
 

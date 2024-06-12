@@ -1,6 +1,6 @@
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Optional, Union, List
 
 import duckdb
 from loguru import logger
@@ -21,7 +21,7 @@ class MonitorService(Service):
         self.settings_service = settings_service
         self.base_cache_dir = Path(user_cache_dir("dfapp"))
         self.db_path = self.base_cache_dir / "monitor.duckdb"
-        self.table_map = {
+        self.table_map: dict[str, type[TransactionModel | MessageModel | VertexBuildModel]] = {
             "transactions": TransactionModel,
             "messages": MessageModel,
             "vertex_builds": VertexBuildModel,
@@ -31,6 +31,10 @@ class MonitorService(Service):
             self.ensure_tables_exist()
         except Exception as e:
             logger.exception(f"Error initializing monitor service: {e}")
+
+    def exec_query(self, query: str):
+        with duckdb.connect(str(self.db_path)) as conn:
+            return conn.execute(query).df()
 
     def to_df(self, table_name):
         return self.load_table_as_dataframe(table_name)
@@ -69,7 +73,7 @@ class MonitorService(Service):
         valid: Optional[bool] = None,
         order_by: Optional[str] = "timestamp",
     ):
-        query = "SELECT id, flow_id, valid, params, data, artifacts, timestamp FROM vertex_builds"
+        query = "SELECT id, index,flow_id, valid, params, data, artifacts, timestamp FROM vertex_builds"
         conditions = []
         if flow_id:
             conditions.append(f"flow_id = '{flow_id}'")
@@ -98,17 +102,38 @@ class MonitorService(Service):
         with duckdb.connect(str(self.db_path)) as conn:
             conn.execute(query)
 
-    def delete_messages(self, session_id: str):
+    def delete_messages_session(self, session_id: str):
         query = f"DELETE FROM messages WHERE session_id = '{session_id}'"
 
-        with duckdb.connect(str(self.db_path)) as conn:
-            conn.execute(query)
+        return self.exec_query(query)
+
+    def delete_messages(self, message_ids: Union[List[int], str]):
+        if isinstance(message_ids, list):
+            # If message_ids is a list, join the string representations of the integers
+            ids_str = ",".join(map(str, message_ids))
+        elif isinstance(message_ids, str):
+            # If message_ids is already a string, use it directly
+            ids_str = message_ids
+        else:
+            raise ValueError("message_ids must be a list of integers or a string")
+
+        query = f"DELETE FROM messages WHERE index IN ({ids_str})"
+
+        return self.exec_query(query)
+
+    def update_message(self, message_id: str, **kwargs):
+        query = (
+            f"""UPDATE messages SET {', '.join(f"{k} = '{v}'" for k, v in kwargs.items())} WHERE index = {message_id}"""
+        )
+
+        return self.exec_query(query)
 
     def add_message(self, message: MessageModel):
         self.add_row("messages", message)
 
     def get_messages(
         self,
+        flow_id: Optional[str] = None,
         sender: Optional[str] = None,
         sender_name: Optional[str] = None,
         session_id: Optional[str] = None,
@@ -116,7 +141,7 @@ class MonitorService(Service):
         order: Optional[str] = "DESC",
         limit: Optional[int] = None,
     ):
-        query = "SELECT sender_name, sender, session_id, message, artifacts, timestamp FROM messages"
+        query = "SELECT index, flow_id, sender_name, sender, session_id, text, timestamp FROM messages"
         conditions = []
         if sender:
             conditions.append(f"sender = '{sender}'")
@@ -124,6 +149,8 @@ class MonitorService(Service):
             conditions.append(f"sender_name = '{sender_name}'")
         if session_id:
             conditions.append(f"session_id = '{session_id}'")
+        if flow_id:
+            conditions.append(f"flow_id = '{flow_id}'")
 
         if conditions:
             query += " WHERE " + " AND ".join(conditions)
@@ -146,8 +173,11 @@ class MonitorService(Service):
         target: Optional[str] = None,
         status: Optional[str] = None,
         order_by: Optional[str] = "timestamp",
+        flow_id: Optional[str] = None,
     ):
-        query = "SELECT source, target, target_args, status, error, timestamp FROM transactions"
+        query = (
+            "SELECT index,flow_id, status, error, timestamp, vertex_id, inputs, outputs, target_id FROM transactions"
+        )
         conditions = []
         if source:
             conditions.append(f"source = '{source}'")
@@ -155,12 +185,14 @@ class MonitorService(Service):
             conditions.append(f"target = '{target}'")
         if status:
             conditions.append(f"status = '{status}'")
+        if flow_id:
+            conditions.append(f"flow_id = '{flow_id}'")
 
         if conditions:
             query += " WHERE " + " AND ".join(conditions)
 
         if order_by:
-            query += f" ORDER BY {order_by}"
+            query += f" ORDER BY {order_by} DESC"
         with duckdb.connect(str(self.db_path)) as conn:
             df = conn.execute(query).df()
 

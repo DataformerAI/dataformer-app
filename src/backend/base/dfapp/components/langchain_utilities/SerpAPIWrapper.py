@@ -2,7 +2,7 @@ from typing import Callable, Union
 
 from langchain_community.utilities.serpapi import SerpAPIWrapper
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 
 
 class SerpAPIWrapperComponent(CustomComponent):

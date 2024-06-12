@@ -1,1 +1,1 @@
-from dfapp.interface.custom.custom_component import CustomComponent  # noqa: F401
+from dfapp.custom import CustomComponent  # noqa: F401

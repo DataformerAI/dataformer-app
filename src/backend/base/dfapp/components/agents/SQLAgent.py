@@ -1,12 +1,12 @@
 from typing import Callable, Union
 
 from langchain.agents import AgentExecutor
-from langchain_community.utilities import SQLDatabase
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain_community.agent_toolkits.sql.base import create_sql_agent
+from langchain_community.utilities import SQLDatabase
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import BaseLanguageModel
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class SQLAgentComponent(CustomComponent):

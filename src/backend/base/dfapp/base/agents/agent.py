@@ -7,7 +7,7 @@ from langchain_core.runnables import Runnable
 from dfapp.base.agents.utils import get_agents_list, records_to_messages
 from dfapp.custom import CustomComponent
 from dfapp.field_typing import Text, Tool
-from dfapp.schema.schema import Record
+from dfapp.schema import Record
 
 
 class LCAgentComponent(CustomComponent):

@@ -6,8 +6,8 @@ from langchain_core.prompts.chat import HumanMessagePromptTemplate, SystemMessag
 from dfapp.base.agents.agent import LCAgentComponent
 from dfapp.base.agents.utils import AGENTS, AgentSpec, get_agents_list
 from dfapp.field_typing import BaseLanguageModel, Text, Tool
+from dfapp.schema import Record
 from dfapp.schema.dotdict import dotdict
-from dfapp.schema.schema import Record
 
 
 class AgentComponent(LCAgentComponent):

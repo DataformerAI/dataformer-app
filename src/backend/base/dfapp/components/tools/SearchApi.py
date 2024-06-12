@@ -3,7 +3,7 @@ from typing import Optional
 from langchain_community.utilities.searchapi import SearchApiAPIWrapper
 
 from dfapp.custom import CustomComponent
-from dfapp.schema.schema import Record
+from dfapp.schema import Record
 from dfapp.services.database.models.base import orjson_dumps
 
 
@@ -43,7 +43,7 @@ class SearchApi(CustomComponent):
 
         search_api_wrapper = SearchApiAPIWrapper(engine=engine, searchapi_api_key=api_key)
 
-        q = params.pop("q", "SearchApi Dataformer App")
+        q = params.pop("q", "SearchApi DataformerApp")
         results = search_api_wrapper.results(q, **params)
 
         result = orjson_dumps(results, indent_2=False)

@@ -49,9 +49,8 @@ class AnthropicLLM(LCModelComponent):
             },
             "max_tokens": {
                 "display_name": "Max Tokens",
-                "field_type": "int",
                 "advanced": True,
-                "value": 256,
+                "info": "The maximum number of tokens to generate. Set to 0 for unlimited tokens.",
             },
             "temperature": {
                 "display_name": "Temperature",
@@ -64,7 +63,7 @@ class AnthropicLLM(LCModelComponent):
                 "info": "Endpoint of the Anthropic API. Defaults to 'https://api.anthropic.com' if not specified.",
             },
             "code": {"show": False},
-            "input_value": {"display_name": "Input"},
+            "input_value": {"display_name": "Input", "input_types": ["Text", "Record", "Prompt"]},
             "stream": {
                 "display_name": "Stream",
                 "advanced": True,

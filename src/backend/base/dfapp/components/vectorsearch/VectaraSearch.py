@@ -50,7 +50,7 @@ class VectaraSearchComponent(VectaraComponent, LCVectorStoreComponent):
         vectara_api_key: str,
         number_of_results: int = 4,
     ) -> List[Record]:
-        source = "Dataformer App"
+        source = "DataformerApp"
         vector_store = Vectara(
             vectara_customer_id=vectara_customer_id,
             vectara_corpus_id=vectara_corpus_id,

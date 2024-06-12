@@ -1,8 +1,8 @@
 from typing import Callable
 
+from dfapp.custom import CustomComponent
+from dfapp.custom.utils import get_function
 from dfapp.field_typing import Code
-from dfapp.interface.custom.custom_component import CustomComponent
-from dfapp.interface.custom.utils import get_function
 
 
 class PythonFunctionComponent(CustomComponent):

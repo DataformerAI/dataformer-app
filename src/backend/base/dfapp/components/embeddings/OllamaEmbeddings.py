@@ -1,9 +1,9 @@
 from typing import Optional
 
-from langchain.embeddings.base import Embeddings
 from langchain_community.embeddings import OllamaEmbeddings
+from langchain_core.embeddings import Embeddings
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 
 
 class OllamaEmbeddingsComponent(CustomComponent):

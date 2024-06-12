@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Optional
 
 from dfapp.base.data.utils import parallel_load_records, parse_text_file_to_record, retrieve_file_paths
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 from dfapp.schema import Record
 
 

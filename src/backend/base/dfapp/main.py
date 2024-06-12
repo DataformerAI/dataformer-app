@@ -14,7 +14,11 @@ from rich import print as rprint
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from dfapp.api import router
-from dfapp.initial_setup.setup import create_or_update_starter_projects
+from dfapp.initial_setup.setup import (
+    create_or_update_starter_projects,
+    initialize_super_user_if_needed,
+    load_flows_from_directory,
+)
 from dfapp.interface.utils import setup_llm_caching
 from dfapp.services.plugins.langfuse_plugin import LangfuseInstance
 from dfapp.services.utils import initialize_services, teardown_services
@@ -33,29 +37,29 @@ class JavaScriptMIMETypeMiddleware(BaseHTTPMiddleware):
         return response
 
 
-def get_lifespan(fix_migration=False, socketio_server=None):
-    from dfapp.version import __version__  # type: ignore
-
+def get_lifespan(fix_migration=False, socketio_server=None, version=None):
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         nest_asyncio.apply()
         # Startup message
-        if __version__:
-            rprint(f"[bold green]Starting Dataformer App v{__version__}...[/bold green]")
+        if version:
+            rprint(f"[bold green]Starting DataformerApp v{version}...[/bold green]")
         else:
-            rprint("[bold green]Starting Dataformer App...[/bold green]")
+            rprint("[bold green]Starting DataformerApp...[/bold green]")
         try:
             initialize_services(fix_migration=fix_migration, socketio_server=socketio_server)
             setup_llm_caching()
             LangfuseInstance.update()
+            initialize_super_user_if_needed()
             create_or_update_starter_projects()
+            load_flows_from_directory()
             yield
         except Exception as exc:
             if "dfapp migration --fix" not in str(exc):
                 logger.error(exc)
             raise
         # Shutdown message
-        rprint("[bold red]Shutting down Dataformer App...[/bold red]")
+        rprint("[bold red]Shutting down DataformerApp...[/bold red]")
         teardown_services()
 
     return lifespan
@@ -63,11 +67,17 @@ def get_lifespan(fix_migration=False, socketio_server=None):
 
 def create_app():
     """Create the FastAPI app and include the router."""
+    try:
+        from dfapp.version import __version__  # type: ignore
+    except ImportError:
+        from importlib.metadata import version
+
+        __version__ = version("dfapp-base")
 
     configure()
     socketio_server = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins="*", logger=True)
-    lifespan = get_lifespan(socketio_server=socketio_server)
-    app = FastAPI(lifespan=lifespan)
+    lifespan = get_lifespan(socketio_server=socketio_server, version=__version__)
+    app = FastAPI(lifespan=lifespan, title="DataformerApp", version=__version__)
     origins = ["*"]
 
     app.add_middleware(
@@ -128,7 +138,7 @@ def setup_static_files(app: FastAPI, static_files_dir: Path):
 
 
 def get_static_files_dir():
-    """Get the static files directory relative to Dataformer App's main.py file."""
+    """Get the static files directory relative to DataformerApp's main.py file."""
     frontend_path = Path(__file__).parent
     return frontend_path / "frontend"
 

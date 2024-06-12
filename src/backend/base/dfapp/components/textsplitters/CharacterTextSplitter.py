@@ -1,9 +1,9 @@
 from typing import List
 
-from langchain.text_splitter import CharacterTextSplitter
+from langchain_text_splitters import CharacterTextSplitter
 
-from dfapp.interface.custom.custom_component import CustomComponent
-from dfapp.schema.schema import Record
+from dfapp.custom import CustomComponent
+from dfapp.schema import Record
 from dfapp.utils.util import unescape_string
 
 

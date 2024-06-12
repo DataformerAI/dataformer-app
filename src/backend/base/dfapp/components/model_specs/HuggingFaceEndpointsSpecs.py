@@ -1,9 +1,9 @@
 from typing import Optional
 
-from dfapp.field_typing import BaseLanguageModel
 from langchain_community.llms.huggingface_endpoint import HuggingFaceEndpoint
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
+from dfapp.field_typing import BaseLanguageModel
 
 
 class HuggingFaceEndpointsComponent(CustomComponent):

@@ -13,7 +13,7 @@ from pydantic import BaseModel
 from dfapp.field_typing.range_spec import RangeSpec
 from dfapp.interface.custom.attributes import ATTR_FUNC_MAPPING
 from dfapp.interface.custom.code_parser.utils import extract_inner_type
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 from dfapp.interface.custom.directory_reader.utils import (
     build_custom_component_list_from_path,
     determine_component_name,

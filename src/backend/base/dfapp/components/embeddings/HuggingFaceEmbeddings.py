@@ -2,7 +2,7 @@ from typing import Dict, Optional
 
 from langchain_community.embeddings.huggingface import HuggingFaceEmbeddings
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 
 
 class HuggingFaceEmbeddingsComponent(CustomComponent):

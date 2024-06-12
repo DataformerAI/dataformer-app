@@ -1,6 +1,9 @@
+from copy import deepcopy
+
 from langchain_core.documents import Document
 
 from dfapp.schema import Record
+from dfapp.schema.message import Message
 
 
 def record_to_string(record: Record) -> str:
@@ -27,19 +30,24 @@ def dict_values_to_string(d: dict) -> dict:
         dict: The dictionary with values converted to strings.
     """
     # Do something similar to the above
-    for key, value in d.items():
+    d_copy = deepcopy(d)
+    for key, value in d_copy.items():
         # it could be a list of records or documents or strings
         if isinstance(value, list):
             for i, item in enumerate(value):
-                if isinstance(item, Record):
-                    d[key][i] = record_to_string(item)
+                if isinstance(item, Message):
+                    d_copy[key][i] = item.text
+                elif isinstance(item, Record):
+                    d_copy[key][i] = record_to_string(item)
                 elif isinstance(item, Document):
-                    d[key][i] = document_to_string(item)
+                    d_copy[key][i] = document_to_string(item)
+        elif isinstance(value, Message):
+            d_copy[key] = value.text
         elif isinstance(value, Record):
-            d[key] = record_to_string(value)
+            d_copy[key] = record_to_string(value)
         elif isinstance(value, Document):
-            d[key] = document_to_string(value)
-    return d
+            d_copy[key] = document_to_string(value)
+    return d_copy
 
 
 def document_to_string(document: Document) -> str:

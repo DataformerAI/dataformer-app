@@ -1,7 +1,7 @@
 import uuid
 from typing import Any, Optional
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 
 
 class UUIDGeneratorComponent(CustomComponent):

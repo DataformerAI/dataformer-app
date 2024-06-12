@@ -3,8 +3,8 @@ from typing import Optional
 from langchain_google_genai import ChatGoogleGenerativeAI  # type: ignore
 from pydantic.v1.types import SecretStr
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import BaseLanguageModel, RangeSpec
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class GoogleGenerativeAIComponent(CustomComponent):

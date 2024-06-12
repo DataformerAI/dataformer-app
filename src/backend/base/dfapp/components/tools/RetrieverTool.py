@@ -1,7 +1,7 @@
 from langchain.tools.retriever import create_retriever_tool
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import BaseRetriever, Tool
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class RetrieverToolComponent(CustomComponent):

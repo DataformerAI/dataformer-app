@@ -142,7 +142,7 @@ class AstraDBSearchComponent(LCVectorStoreComponent):
         except KeyError as e:
             if "content" in str(e):
                 raise ValueError(
-                    "You should ingest data through Dataformer App (or LangChain) to query it in Dataformer App. Your collection does not contain a field name 'content'."
+                    "You should ingest data through DataformerApp (or LangChain) to query it in DataformerApp. Your collection does not contain a field name 'content'."
                 )
             else:
                 raise e

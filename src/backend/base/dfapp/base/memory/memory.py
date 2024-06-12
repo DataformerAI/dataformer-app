@@ -1,9 +1,7 @@
 from typing import Optional
 
-from dfapp.field_typing import Text
-from dfapp.helpers.record import records_to_text
-from dfapp.interface.custom.custom_component import CustomComponent
-from dfapp.schema.schema import Record
+from dfapp.custom import CustomComponent
+from dfapp.schema import Record
 
 
 class BaseMemoryComponent(CustomComponent):

@@ -1,6 +1,6 @@
 from langchain_experimental.sql.base import SQLDatabase
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 
 
 class SQLDatabaseComponent(CustomComponent):

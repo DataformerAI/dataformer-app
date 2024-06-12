@@ -1,9 +1,9 @@
 from typing import Optional
 
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 from dfapp.schema import Record
 from dfapp.utils.util import build_loader_repr_from_records, unescape_string
 

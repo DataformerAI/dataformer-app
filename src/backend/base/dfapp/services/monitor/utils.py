@@ -8,6 +8,7 @@ from dfapp.services.deps import get_monitor_service
 
 if TYPE_CHECKING:
     from dfapp.api.v1.schemas import ResultDataResponse
+    from dfapp.graph.vertex.base import Vertex
 
 
 INDEX_KEY = "index"
@@ -61,7 +62,7 @@ def drop_and_create_table_if_schema_mismatch(db_path: str, table_name: str, mode
         if current_schema != desired_schema:
             # If they don't match, drop the existing table and create a new one
             conn.execute(f"DROP TABLE IF EXISTS {table_name}")
-            if "id" in desired_schema.keys():
+            if INDEX_KEY in desired_schema.keys():
                 # Create a sequence for the id column
                 try:
                     conn.execute(f"CREATE SEQUENCE seq_{table_name} START 1;")
@@ -91,7 +92,7 @@ def add_row_to_table(
     columns = ", ".join(keys)
 
     values_placeholders = ", ".join(["?" for _ in keys])
-    values = list(validated_dict.values())
+    values = [validated_dict[key] for key in keys]
 
     # Create the insert statement
     insert_sql = f"INSERT INTO {table_name} ({columns}) VALUES ({values_placeholders})"
@@ -104,7 +105,7 @@ def add_row_to_table(
         column_error_message = ""
         for key, value in validated_dict.items():
             logger.error(f"{key}: {type(value)}")
-            if value in str(e):
+            if str(value) in str(e):
                 column_error_message = f"Column: {key} Value: {value} Error: {e}"
 
         if column_error_message:
@@ -118,22 +119,19 @@ async def log_message(
     sender_name: str,
     message: str,
     session_id: str,
-    artifacts: Optional[dict] = None,
+    files: Optional[list] = None,
+    flow_id: Optional[str] = None,
 ):
     try:
-        from dfapp.graph.vertex.base import Vertex
-
-        if isinstance(session_id, Vertex):
-            session_id = await session_id.build()  # type: ignore
-
         monitor_service = get_monitor_service()
         row = {
             "sender": sender,
             "sender_name": sender_name,
             "message": message,
-            "artifacts": artifacts or {},
+            "files": files or [],
             "session_id": session_id,
             "timestamp": monitor_service.get_timestamp(),
+            "flow_id": flow_id,
         }
         monitor_service.add_row(table_name="messages", data=row)
     except Exception as e:
@@ -163,3 +161,37 @@ async def log_vertex_build(
         monitor_service.add_row(table_name="vertex_builds", data=row)
     except Exception as e:
         logger.exception(f"Error logging vertex build: {e}")
+
+
+def build_clean_params(target: "Vertex") -> dict:
+    """
+    Cleans the parameters of the target vertex.
+    """
+    # Removes all keys that the values aren't python types like str, int, bool, etc.
+    params = {
+        key: value for key, value in target.params.items() if isinstance(value, (str, int, bool, float, list, dict))
+    }
+    # if it is a list we need to check if the contents are python types
+    for key, value in params.items():
+        if isinstance(value, list):
+            params[key] = [item for item in value if isinstance(item, (str, int, bool, float, list, dict))]
+    return params
+
+
+def log_transaction(flow_id, vertex: "Vertex", status, target: Optional["Vertex"] = None, error=None):
+    try:
+        monitor_service = get_monitor_service()
+        clean_params = build_clean_params(vertex)
+        data = {
+            "vertex_id": str(vertex.id),
+            "target_id": str(target.id) if target else None,
+            "inputs": clean_params,
+            "outputs": vertex.result.model_dump_json() if vertex.result else None,
+            "timestamp": monitor_service.get_timestamp(),
+            "status": status,
+            "error": error,
+            "flow_id": flow_id,
+        }
+        monitor_service.add_row(table_name="transactions", data=data)
+    except Exception as e:
+        logger.error(f"Error logging transaction: {e}")

@@ -1,8 +1,9 @@
 from typing import Optional
-from dfapp.field_typing import BaseLanguageModel
+
 from langchain_community.llms.bedrock import Bedrock
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
+from dfapp.field_typing import BaseLanguageModel
 
 
 class AmazonBedrockComponent(CustomComponent):

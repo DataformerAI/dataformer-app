@@ -1,8 +1,9 @@
-from typing import Optional, Union
+from typing import Optional
 
 from dfapp.base.io.chat import ChatComponent
+from dfapp.schema.message import Message
 from dfapp.field_typing import Text
-from dfapp.schema import Record
+from typing import Union
 
 
 class ChatInput(ChatComponent):
@@ -14,7 +15,7 @@ class ChatInput(ChatComponent):
         build_config = super().build_config()
         build_config["input_value"] = {
             "input_types": [],
-            "display_name": "Message",
+            "display_name": "Text",
             "multiline": True,
         }
 
@@ -25,13 +26,15 @@ class ChatInput(ChatComponent):
         sender: Optional[str] = "User",
         sender_name: Optional[str] = "User",
         input_value: Optional[str] = None,
+        files: Optional[list[str]] = None,
         session_id: Optional[str] = None,
-        return_record: Optional[bool] = False,
-    ) -> Union[Text, Record]:
-        return super().build_no_record(
+        return_message: Optional[bool] = False,
+    ) -> Union[Message, Text]:
+        return super().build_with_record(
             sender=sender,
             sender_name=sender_name,
             input_value=input_value,
+            files=files,
             session_id=session_id,
-            return_record=return_record,
+            return_message=return_message,
         )

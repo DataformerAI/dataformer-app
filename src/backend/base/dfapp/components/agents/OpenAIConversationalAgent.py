@@ -11,7 +11,7 @@ from langchain.tools import Tool
 from langchain_community.chat_models import ChatOpenAI
 
 from dfapp.field_typing.range_spec import RangeSpec
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 
 
 class ConversationalAgent(CustomComponent):

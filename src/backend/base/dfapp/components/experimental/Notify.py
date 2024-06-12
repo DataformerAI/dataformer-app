@@ -1,6 +1,6 @@
 from typing import Optional
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 from dfapp.schema import Record
 
 

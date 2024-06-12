@@ -1,7 +1,7 @@
 from langchain.chains import LLMCheckerChain
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import BaseLanguageModel, Text
-from dfapp.interface.custom.custom_component import CustomComponent
 
 
 class LLMCheckerChainComponent(CustomComponent):

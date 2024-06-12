@@ -1,7 +1,7 @@
 from typing import Optional
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import Text
-from dfapp.interface.custom.custom_component import CustomComponent
 from dfapp.schema import Record
 from dfapp.utils.util import unescape_string
 
@@ -43,7 +43,7 @@ class SplitTextComponent(CustomComponent):
                 chunks = [chunk[:truncate_size] for chunk in chunks]
 
             for chunk in chunks:
-                outputs.append(Record(text=chunk, data={"parent": text}))
+                outputs.append(Record(data={"parent": text, "text": chunk}))
 
         self.status = outputs
         return outputs

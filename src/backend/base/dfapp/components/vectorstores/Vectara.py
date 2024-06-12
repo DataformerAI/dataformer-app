@@ -7,9 +7,9 @@ from langchain_community.embeddings import FakeEmbeddings
 from langchain_community.vectorstores.vectara import Vectara
 from langchain_core.vectorstores import VectorStore
 
+from dfapp.custom import CustomComponent
 from dfapp.field_typing import BaseRetriever
-from dfapp.interface.custom.custom_component import CustomComponent
-from dfapp.schema.schema import Record
+from dfapp.schema import Record
 
 
 class VectaraComponent(CustomComponent):
@@ -47,7 +47,7 @@ class VectaraComponent(CustomComponent):
         files_url: Optional[List[str]] = None,
         inputs: Optional[Record] = None,
     ) -> Union[VectorStore, BaseRetriever]:
-        source = "Dataformer App"
+        source = "DataformerApp"
 
         documents = []
         for _input in inputs or []:

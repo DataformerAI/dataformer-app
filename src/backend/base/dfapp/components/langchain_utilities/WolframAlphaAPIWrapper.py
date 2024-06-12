@@ -2,7 +2,7 @@ from typing import Callable, Union
 
 from langchain_community.utilities.wolfram_alpha import WolframAlphaAPIWrapper
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 
 # Since all the fields in the JSON have show=False, we will only create a basic component
 # without any configurable fields.

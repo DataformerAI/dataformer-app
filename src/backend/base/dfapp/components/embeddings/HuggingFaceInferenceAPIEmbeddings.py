@@ -3,7 +3,7 @@ from typing import Dict, Optional
 from langchain_community.embeddings.huggingface import HuggingFaceInferenceAPIEmbeddings
 from pydantic.v1.types import SecretStr
 
-from dfapp.interface.custom.custom_component import CustomComponent
+from dfapp.custom import CustomComponent
 
 
 class HuggingFaceInferenceAPIEmbeddingsComponent(CustomComponent):

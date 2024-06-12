@@ -93,9 +93,7 @@ class ChatLiteLLMModelComponent(LCModelComponent):
             },
             "max_tokens": {
                 "display_name": "Max tokens",
-                "field_type": "int",
                 "advanced": False,
-                "required": False,
                 "default": 256,
                 "info": "The maximum number of tokens to generate for each chat completion.",
             },
@@ -113,7 +111,7 @@ class ChatLiteLLMModelComponent(LCModelComponent):
                 "required": False,
                 "default": False,
             },
-            "input_value": {"display_name": "Input"},
+            "input_value": {"display_name": "Input", "input_types": ["Text", "Record", "Prompt"]},
             "stream": {
                 "display_name": "Stream",
                 "info": STREAM_INFO_TEXT,
