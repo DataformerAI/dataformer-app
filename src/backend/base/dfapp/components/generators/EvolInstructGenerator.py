@@ -104,7 +104,7 @@ class EvolInstructGeneratorComponent(LCModelComponent):
             You should try your best not to make the #Rewritten Prompt# become verbose, #Rewritten Prompt# can only add 10 to 20 words into #The Given Prompt#. \r\n\
             '#The Given Prompt#', '#Rewritten Prompt#', 'given prompt' and 'rewritten prompt' are not allowed to appear in #Rewritten Prompt#\r\n",
     ) -> DatasetDict:
-        df = dataset["train"].to_pandas().head(10)
+        df = dataset["train"].to_pandas()
         data = []
         selected_evol_prompts = []
         for instruction in tqdm(df[Column_name], desc="Generating prompts"):
