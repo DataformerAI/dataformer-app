@@ -23,14 +23,14 @@
             "type": "BaseLanguageModel"
           }
         },
-        "id": "reactflow__edge-GroqModelSpecs-zIdf3{œbaseClassesœ:[œBaseLanguageModelœ,œGenericœ,œobjectœ,œRunnableœ,œRunnableSerializableœ,œSerializableœ],œdataTypeœ:œGroqModelSpecsœ,œidœ:œGroqModelSpecs-zIdf3œ}-SimpleGenerator-Kb6Hj{œfieldNameœ:œmodelœ,œidœ:œSimpleGenerator-Kb6Hjœ,œinputTypesœ:null,œtypeœ:œBaseLanguageModelœ}",
+        "id": "reactflow__edge-GroqModelSpecs-zIdf3{\u0153baseClasses\u0153:[\u0153BaseLanguageModel\u0153,\u0153Generic\u0153,\u0153object\u0153,\u0153Runnable\u0153,\u0153RunnableSerializable\u0153,\u0153Serializable\u0153],\u0153dataType\u0153:\u0153GroqModelSpecs\u0153,\u0153id\u0153:\u0153GroqModelSpecs-zIdf3\u0153}-SimpleGenerator-Kb6Hj{\u0153fieldName\u0153:\u0153model\u0153,\u0153id\u0153:\u0153SimpleGenerator-Kb6Hj\u0153,\u0153inputTypes\u0153:null,\u0153type\u0153:\u0153BaseLanguageModel\u0153}",
         "source": "GroqModelSpecs-zIdf3",
-        "sourceHandle": "{œbaseClassesœ: [œBaseLanguageModelœ, œGenericœ, œobjectœ, œRunnableœ, œRunnableSerializableœ, œSerializableœ], œdataTypeœ: œGroqModelSpecsœ, œidœ: œGroqModelSpecs-zIdf3œ}",
+        "sourceHandle": "{\u0153baseClasses\u0153: [\u0153BaseLanguageModel\u0153, \u0153Generic\u0153, \u0153object\u0153, \u0153Runnable\u0153, \u0153RunnableSerializable\u0153, \u0153Serializable\u0153], \u0153dataType\u0153: \u0153GroqModelSpecs\u0153, \u0153id\u0153: \u0153GroqModelSpecs-zIdf3\u0153}",
         "style": {
           "stroke": "#555"
         },
         "target": "SimpleGenerator-Kb6Hj",
-        "targetHandle": "{œfieldNameœ: œmodelœ, œidœ: œSimpleGenerator-Kb6Hjœ, œinputTypesœ: null, œtypeœ: œBaseLanguageModelœ}"
+        "targetHandle": "{\u0153fieldName\u0153: \u0153model\u0153, \u0153id\u0153: \u0153SimpleGenerator-Kb6Hj\u0153, \u0153inputTypes\u0153: null, \u0153type\u0153: \u0153BaseLanguageModel\u0153}"
       },
       {
         "className": "stroke-foreground stroke-connection",
@@ -47,14 +47,14 @@
             "type": "str"
           }
         },
-        "id": "reactflow__edge-Prompt-6XzlB{œbaseClassesœ:[œobjectœ,œstrœ,œTextœ],œdataTypeœ:œPromptœ,œidœ:œPrompt-6XzlBœ}-SimpleGenerator-Kb6Hj{œfieldNameœ:œtextœ,œidœ:œSimpleGenerator-Kb6Hjœ,œinputTypesœ:[œTextœ],œtypeœ:œstrœ}",
+        "id": "reactflow__edge-Prompt-6XzlB{\u0153baseClasses\u0153:[\u0153object\u0153,\u0153str\u0153,\u0153Text\u0153],\u0153dataType\u0153:\u0153Prompt\u0153,\u0153id\u0153:\u0153Prompt-6XzlB\u0153}-SimpleGenerator-Kb6Hj{\u0153fieldName\u0153:\u0153text\u0153,\u0153id\u0153:\u0153SimpleGenerator-Kb6Hj\u0153,\u0153inputTypes\u0153:[\u0153Text\u0153],\u0153type\u0153:\u0153str\u0153}",
         "source": "Prompt-6XzlB",
-        "sourceHandle": "{œbaseClassesœ: [œobjectœ, œstrœ, œTextœ], œdataTypeœ: œPromptœ, œidœ: œPrompt-6XzlBœ}",
+        "sourceHandle": "{\u0153baseClasses\u0153: [\u0153object\u0153, \u0153str\u0153, \u0153Text\u0153], \u0153dataType\u0153: \u0153Prompt\u0153, \u0153id\u0153: \u0153Prompt-6XzlB\u0153}",
         "style": {
           "stroke": "#555"
         },
         "target": "SimpleGenerator-Kb6Hj",
-        "targetHandle": "{œfieldNameœ: œtextœ, œidœ: œSimpleGenerator-Kb6Hjœ, œinputTypesœ: [œTextœ], œtypeœ: œstrœ}"
+        "targetHandle": "{\u0153fieldName\u0153: \u0153text\u0153, \u0153id\u0153: \u0153SimpleGenerator-Kb6Hj\u0153, \u0153inputTypes\u0153: [\u0153Text\u0153], \u0153type\u0153: \u0153str\u0153}"
       },
       {
         "className": "stroke-foreground stroke-connection",
@@ -71,14 +71,14 @@
             "type": "str"
           }
         },
-        "id": "reactflow__edge-Prompt-C9ewK{œbaseClassesœ:[œobjectœ,œstrœ,œTextœ],œdataTypeœ:œPromptœ,œidœ:œPrompt-C9ewKœ}-SimpleGenerator-5h73H{œfieldNameœ:œsystem_promptœ,œidœ:œSimpleGenerator-5h73Hœ,œinputTypesœ:[œTextœ],œtypeœ:œstrœ}",
+        "id": "reactflow__edge-Prompt-C9ewK{\u0153baseClasses\u0153:[\u0153object\u0153,\u0153str\u0153,\u0153Text\u0153],\u0153dataType\u0153:\u0153Prompt\u0153,\u0153id\u0153:\u0153Prompt-C9ewK\u0153}-SimpleGenerator-5h73H{\u0153fieldName\u0153:\u0153system_prompt\u0153,\u0153id\u0153:\u0153SimpleGenerator-5h73H\u0153,\u0153inputTypes\u0153:[\u0153Text\u0153],\u0153type\u0153:\u0153str\u0153}",
         "source": "Prompt-C9ewK",
-        "sourceHandle": "{œbaseClassesœ: [œobjectœ, œstrœ, œTextœ], œdataTypeœ: œPromptœ, œidœ: œPrompt-C9ewKœ}",
+        "sourceHandle": "{\u0153baseClasses\u0153: [\u0153object\u0153, \u0153str\u0153, \u0153Text\u0153], \u0153dataType\u0153: \u0153Prompt\u0153, \u0153id\u0153: \u0153Prompt-C9ewK\u0153}",
         "style": {
           "stroke": "#555"
         },
         "target": "SimpleGenerator-5h73H",
-        "targetHandle": "{œfieldNameœ: œsystem_promptœ, œidœ: œSimpleGenerator-5h73Hœ, œinputTypesœ: [œTextœ], œtypeœ: œstrœ}"
+        "targetHandle": "{\u0153fieldName\u0153: \u0153system_prompt\u0153, \u0153id\u0153: \u0153SimpleGenerator-5h73H\u0153, \u0153inputTypes\u0153: [\u0153Text\u0153], \u0153type\u0153: \u0153str\u0153}"
       },
       {
         "className": "stroke-foreground stroke-connection",
@@ -95,14 +95,14 @@
             "type": "str"
           }
         },
-        "id": "reactflow__edge-SimpleGenerator-Kb6Hj{œbaseClassesœ:[œobjectœ,œstrœ,œTextœ],œdataTypeœ:œSimpleGeneratorœ,œidœ:œSimpleGenerator-Kb6Hjœ}-SimpleGenerator-5h73H{œfieldNameœ:œtextœ,œidœ:œSimpleGenerator-5h73Hœ,œinputTypesœ:[œTextœ],œtypeœ:œstrœ}",
+        "id": "reactflow__edge-SimpleGenerator-Kb6Hj{\u0153baseClasses\u0153:[\u0153object\u0153,\u0153str\u0153,\u0153Text\u0153],\u0153dataType\u0153:\u0153SimpleGenerator\u0153,\u0153id\u0153:\u0153SimpleGenerator-Kb6Hj\u0153}-SimpleGenerator-5h73H{\u0153fieldName\u0153:\u0153text\u0153,\u0153id\u0153:\u0153SimpleGenerator-5h73H\u0153,\u0153inputTypes\u0153:[\u0153Text\u0153],\u0153type\u0153:\u0153str\u0153}",
         "source": "SimpleGenerator-Kb6Hj",
-        "sourceHandle": "{œbaseClassesœ: [œobjectœ, œstrœ, œTextœ], œdataTypeœ: œSimpleGeneratorœ, œidœ: œSimpleGenerator-Kb6Hjœ}",
+        "sourceHandle": "{\u0153baseClasses\u0153: [\u0153object\u0153, \u0153str\u0153, \u0153Text\u0153], \u0153dataType\u0153: \u0153SimpleGenerator\u0153, \u0153id\u0153: \u0153SimpleGenerator-Kb6Hj\u0153}",
         "style": {
           "stroke": "#555"
         },
         "target": "SimpleGenerator-5h73H",
-        "targetHandle": "{œfieldNameœ: œtextœ, œidœ: œSimpleGenerator-5h73Hœ, œinputTypesœ: [œTextœ], œtypeœ: œstrœ}"
+        "targetHandle": "{\u0153fieldName\u0153: \u0153text\u0153, \u0153id\u0153: \u0153SimpleGenerator-5h73H\u0153, \u0153inputTypes\u0153: [\u0153Text\u0153], \u0153type\u0153: \u0153str\u0153}"
       },
       {
         "className": "stroke-foreground stroke-connection",
@@ -126,14 +126,14 @@
             "type": "BaseLanguageModel"
           }
         },
-        "id": "reactflow__edge-GroqModelSpecs-zIdf3{œbaseClassesœ:[œBaseLanguageModelœ,œGenericœ,œobjectœ,œRunnableœ,œRunnableSerializableœ,œSerializableœ],œdataTypeœ:œGroqModelSpecsœ,œidœ:œGroqModelSpecs-zIdf3œ}-SimpleGenerator-5h73H{œfieldNameœ:œmodelœ,œidœ:œSimpleGenerator-5h73Hœ,œinputTypesœ:null,œtypeœ:œBaseLanguageModelœ}",
+        "id": "reactflow__edge-GroqModelSpecs-zIdf3{\u0153baseClasses\u0153:[\u0153BaseLanguageModel\u0153,\u0153Generic\u0153,\u0153object\u0153,\u0153Runnable\u0153,\u0153RunnableSerializable\u0153,\u0153Serializable\u0153],\u0153dataType\u0153:\u0153GroqModelSpecs\u0153,\u0153id\u0153:\u0153GroqModelSpecs-zIdf3\u0153}-SimpleGenerator-5h73H{\u0153fieldName\u0153:\u0153model\u0153,\u0153id\u0153:\u0153SimpleGenerator-5h73H\u0153,\u0153inputTypes\u0153:null,\u0153type\u0153:\u0153BaseLanguageModel\u0153}",
         "source": "GroqModelSpecs-zIdf3",
-        "sourceHandle": "{œbaseClassesœ: [œBaseLanguageModelœ, œGenericœ, œobjectœ, œRunnableœ, œRunnableSerializableœ, œSerializableœ], œdataTypeœ: œGroqModelSpecsœ, œidœ: œGroqModelSpecs-zIdf3œ}",
+        "sourceHandle": "{\u0153baseClasses\u0153: [\u0153BaseLanguageModel\u0153, \u0153Generic\u0153, \u0153object\u0153, \u0153Runnable\u0153, \u0153RunnableSerializable\u0153, \u0153Serializable\u0153], \u0153dataType\u0153: \u0153GroqModelSpecs\u0153, \u0153id\u0153: \u0153GroqModelSpecs-zIdf3\u0153}",
         "style": {
           "stroke": "#555"
         },
         "target": "SimpleGenerator-5h73H",
-        "targetHandle": "{œfieldNameœ: œmodelœ, œidœ: œSimpleGenerator-5h73Hœ, œinputTypesœ: null, œtypeœ: œBaseLanguageModelœ}"
+        "targetHandle": "{\u0153fieldName\u0153: \u0153model\u0153, \u0153id\u0153: \u0153SimpleGenerator-5h73H\u0153, \u0153inputTypes\u0153: null, \u0153type\u0153: \u0153BaseLanguageModel\u0153}"
       },
       {
         "className": "stroke-foreground stroke-connection",
@@ -150,14 +150,14 @@
             "type": "str"
           }
         },
-        "id": "reactflow__edge-SimpleGenerator-5h73H{œbaseClassesœ:[œobjectœ,œstrœ,œTextœ],œdataTypeœ:œSimpleGeneratorœ,œidœ:œSimpleGenerator-5h73Hœ}-TextToJson-rceal{œfieldNameœ:œtextœ,œidœ:œTextToJson-rcealœ,œinputTypesœ:[œTextœ],œtypeœ:œstrœ}",
+        "id": "reactflow__edge-SimpleGenerator-5h73H{\u0153baseClasses\u0153:[\u0153object\u0153,\u0153str\u0153,\u0153Text\u0153],\u0153dataType\u0153:\u0153SimpleGenerator\u0153,\u0153id\u0153:\u0153SimpleGenerator-5h73H\u0153}-TextToJson-rceal{\u0153fieldName\u0153:\u0153text\u0153,\u0153id\u0153:\u0153TextToJson-rceal\u0153,\u0153inputTypes\u0153:[\u0153Text\u0153],\u0153type\u0153:\u0153str\u0153}",
         "source": "SimpleGenerator-5h73H",
-        "sourceHandle": "{œbaseClassesœ: [œobjectœ, œstrœ, œTextœ], œdataTypeœ: œSimpleGeneratorœ, œidœ: œSimpleGenerator-5h73Hœ}",
+        "sourceHandle": "{\u0153baseClasses\u0153: [\u0153object\u0153, \u0153str\u0153, \u0153Text\u0153], \u0153dataType\u0153: \u0153SimpleGenerator\u0153, \u0153id\u0153: \u0153SimpleGenerator-5h73H\u0153}",
         "style": {
           "stroke": "#555"
         },
         "target": "TextToJson-rceal",
-        "targetHandle": "{œfieldNameœ: œtextœ, œidœ: œTextToJson-rcealœ, œinputTypesœ: [œTextœ], œtypeœ: œstrœ}"
+        "targetHandle": "{\u0153fieldName\u0153: \u0153text\u0153, \u0153id\u0153: \u0153TextToJson-rceal\u0153, \u0153inputTypes\u0153: [\u0153Text\u0153], \u0153type\u0153: \u0153str\u0153}"
       },
       {
         "className": "stroke-foreground stroke-connection",
@@ -174,14 +174,14 @@
             "type": "list"
           }
         },
-        "id": "reactflow__edge-TextToJson-rceal{œbaseClassesœ:[œlistœ,œobjectœ],œdataTypeœ:œTextToJsonœ,œidœ:œTextToJson-rcealœ}-JsonToDatasetDict-4fgTV{œfieldNameœ:œjson_dataœ,œidœ:œJsonToDatasetDict-4fgTVœ,œinputTypesœ:null,œtypeœ:œlistœ}",
+        "id": "reactflow__edge-TextToJson-rceal{\u0153baseClasses\u0153:[\u0153list\u0153,\u0153object\u0153],\u0153dataType\u0153:\u0153TextToJson\u0153,\u0153id\u0153:\u0153TextToJson-rceal\u0153}-JsonToDatasetDict-4fgTV{\u0153fieldName\u0153:\u0153json_data\u0153,\u0153id\u0153:\u0153JsonToDatasetDict-4fgTV\u0153,\u0153inputTypes\u0153:null,\u0153type\u0153:\u0153list\u0153}",
         "source": "TextToJson-rceal",
-        "sourceHandle": "{œbaseClassesœ: [œlistœ, œobjectœ], œdataTypeœ: œTextToJsonœ, œidœ: œTextToJson-rcealœ}",
+        "sourceHandle": "{\u0153baseClasses\u0153: [\u0153list\u0153, \u0153object\u0153], \u0153dataType\u0153: \u0153TextToJson\u0153, \u0153id\u0153: \u0153TextToJson-rceal\u0153}",
         "style": {
           "stroke": "#555"
         },
         "target": "JsonToDatasetDict-4fgTV",
-        "targetHandle": "{œfieldNameœ: œjson_dataœ, œidœ: œJsonToDatasetDict-4fgTVœ, œinputTypesœ: null, œtypeœ: œlistœ}"
+        "targetHandle": "{\u0153fieldName\u0153: \u0153json_data\u0153, \u0153id\u0153: \u0153JsonToDatasetDict-4fgTV\u0153, \u0153inputTypes\u0153: null, \u0153type\u0153: \u0153list\u0153}"
       },
       {
         "className": "stroke-foreground stroke-connection",
@@ -198,14 +198,14 @@
             "type": "DatasetDict"
           }
         },
-        "id": "reactflow__edge-HuggingFaceDataset-5NRPs{œbaseClassesœ:[œDatasetDictœ,œdictœ,œobjectœ],œdataTypeœ:œHuggingFaceDatasetœ,œidœ:œHuggingFaceDataset-5NRPsœ}-Datasetmerge-mrqBS{œfieldNameœ:œdataset1œ,œidœ:œDatasetmerge-mrqBSœ,œinputTypesœ:null,œtypeœ:œDatasetDictœ}",
+        "id": "reactflow__edge-HuggingFaceDataset-5NRPs{\u0153baseClasses\u0153:[\u0153DatasetDict\u0153,\u0153dict\u0153,\u0153object\u0153],\u0153dataType\u0153:\u0153HuggingFaceDataset\u0153,\u0153id\u0153:\u0153HuggingFaceDataset-5NRPs\u0153}-Datasetmerge-mrqBS{\u0153fieldName\u0153:\u0153dataset1\u0153,\u0153id\u0153:\u0153Datasetmerge-mrqBS\u0153,\u0153inputTypes\u0153:null,\u0153type\u0153:\u0153DatasetDict\u0153}",
         "source": "HuggingFaceDataset-5NRPs",
-        "sourceHandle": "{œbaseClassesœ: [œDatasetDictœ, œdictœ, œobjectœ], œdataTypeœ: œHuggingFaceDatasetœ, œidœ: œHuggingFaceDataset-5NRPsœ}",
+        "sourceHandle": "{\u0153baseClasses\u0153: [\u0153DatasetDict\u0153, \u0153dict\u0153, \u0153object\u0153], \u0153dataType\u0153: \u0153HuggingFaceDataset\u0153, \u0153id\u0153: \u0153HuggingFaceDataset-5NRPs\u0153}",
         "style": {
           "stroke": "#555"
         },
         "target": "Datasetmerge-mrqBS",
-        "targetHandle": "{œfieldNameœ: œdataset1œ, œidœ: œDatasetmerge-mrqBSœ, œinputTypesœ: null, œtypeœ: œDatasetDictœ}"
+        "targetHandle": "{\u0153fieldName\u0153: \u0153dataset1\u0153, \u0153id\u0153: \u0153Datasetmerge-mrqBS\u0153, \u0153inputTypes\u0153: null, \u0153type\u0153: \u0153DatasetDict\u0153}"
       },
       {
         "className": "stroke-foreground stroke-connection",
@@ -222,14 +222,14 @@
             "type": "DatasetDict"
           }
         },
-        "id": "reactflow__edge-Datasetmerge-mrqBS{œbaseClassesœ:[œDatasetDictœ,œdictœ,œobjectœ],œdataTypeœ:œDatasetmergeœ,œidœ:œDatasetmerge-mrqBSœ}-SelfKnowledge-TvFm8{œfieldNameœ:œdatasetœ,œidœ:œSelfKnowledge-TvFm8œ,œinputTypesœ:null,œtypeœ:œDatasetDictœ}",
+        "id": "reactflow__edge-Datasetmerge-mrqBS{\u0153baseClasses\u0153:[\u0153DatasetDict\u0153,\u0153dict\u0153,\u0153object\u0153],\u0153dataType\u0153:\u0153Datasetmerge\u0153,\u0153id\u0153:\u0153Datasetmerge-mrqBS\u0153}-SelfKnowledge-TvFm8{\u0153fieldName\u0153:\u0153dataset\u0153,\u0153id\u0153:\u0153SelfKnowledge-TvFm8\u0153,\u0153inputTypes\u0153:null,\u0153type\u0153:\u0153DatasetDict\u0153}",
         "source": "Datasetmerge-mrqBS",
-        "sourceHandle": "{œbaseClassesœ: [œDatasetDictœ, œdictœ, œobjectœ], œdataTypeœ: œDatasetmergeœ, œidœ: œDatasetmerge-mrqBSœ}",
+        "sourceHandle": "{\u0153baseClasses\u0153: [\u0153DatasetDict\u0153, \u0153dict\u0153, \u0153object\u0153], \u0153dataType\u0153: \u0153Datasetmerge\u0153, \u0153id\u0153: \u0153Datasetmerge-mrqBS\u0153}",
         "style": {
           "stroke": "#555"
         },
         "target": "SelfKnowledge-TvFm8",
-        "targetHandle": "{œfieldNameœ: œdatasetœ, œidœ: œSelfKnowledge-TvFm8œ, œinputTypesœ: null, œtypeœ: œDatasetDictœ}"
+        "targetHandle": "{\u0153fieldName\u0153: \u0153dataset\u0153, \u0153id\u0153: \u0153SelfKnowledge-TvFm8\u0153, \u0153inputTypes\u0153: null, \u0153type\u0153: \u0153DatasetDict\u0153}"
       },
       {
         "className": "stroke-foreground stroke-connection",
@@ -253,14 +253,14 @@
             "type": "BaseLanguageModel"
           }
         },
-        "id": "reactflow__edge-GroqModelSpecs-f12QF{œbaseClassesœ:[œBaseLanguageModelœ,œGenericœ,œobjectœ,œRunnableœ,œRunnableSerializableœ,œSerializableœ],œdataTypeœ:œGroqModelSpecsœ,œidœ:œGroqModelSpecs-f12QFœ}-SelfKnowledge-TvFm8{œfieldNameœ:œmodelœ,œidœ:œSelfKnowledge-TvFm8œ,œinputTypesœ:null,œtypeœ:œBaseLanguageModelœ}",
+        "id": "reactflow__edge-GroqModelSpecs-f12QF{\u0153baseClasses\u0153:[\u0153BaseLanguageModel\u0153,\u0153Generic\u0153,\u0153object\u0153,\u0153Runnable\u0153,\u0153RunnableSerializable\u0153,\u0153Serializable\u0153],\u0153dataType\u0153:\u0153GroqModelSpecs\u0153,\u0153id\u0153:\u0153GroqModelSpecs-f12QF\u0153}-SelfKnowledge-TvFm8{\u0153fieldName\u0153:\u0153model\u0153,\u0153id\u0153:\u0153SelfKnowledge-TvFm8\u0153,\u0153inputTypes\u0153:null,\u0153type\u0153:\u0153BaseLanguageModel\u0153}",
         "source": "GroqModelSpecs-f12QF",
-        "sourceHandle": "{œbaseClassesœ: [œBaseLanguageModelœ, œGenericœ, œobjectœ, œRunnableœ, œRunnableSerializableœ, œSerializableœ], œdataTypeœ: œGroqModelSpecsœ, œidœ: œGroqModelSpecs-f12QFœ}",
+        "sourceHandle": "{\u0153baseClasses\u0153: [\u0153BaseLanguageModel\u0153, \u0153Generic\u0153, \u0153object\u0153, \u0153Runnable\u0153, \u0153RunnableSerializable\u0153, \u0153Serializable\u0153], \u0153dataType\u0153: \u0153GroqModelSpecs\u0153, \u0153id\u0153: \u0153GroqModelSpecs-f12QF\u0153}",
         "style": {
           "stroke": "#555"
         },
         "target": "SelfKnowledge-TvFm8",
-        "targetHandle": "{œfieldNameœ: œmodelœ, œidœ: œSelfKnowledge-TvFm8œ, œinputTypesœ: null, œtypeœ: œBaseLanguageModelœ}"
+        "targetHandle": "{\u0153fieldName\u0153: \u0153model\u0153, \u0153id\u0153: \u0153SelfKnowledge-TvFm8\u0153, \u0153inputTypes\u0153: null, \u0153type\u0153: \u0153BaseLanguageModel\u0153}"
       },
       {
         "className": "stroke-foreground stroke-connection",
@@ -277,14 +277,14 @@
             "type": "DatasetDict"
           }
         },
-        "id": "reactflow__edge-SelfKnowledge-TvFm8{œbaseClassesœ:[œDatasetDictœ,œdictœ,œobjectœ],œdataTypeœ:œSelfKnowledgeœ,œidœ:œSelfKnowledge-TvFm8œ}-PushToHub-HznLa{œfieldNameœ:œdatasetœ,œidœ:œPushToHub-HznLaœ,œinputTypesœ:null,œtypeœ:œDatasetDictœ}",
+        "id": "reactflow__edge-SelfKnowledge-TvFm8{\u0153baseClasses\u0153:[\u0153DatasetDict\u0153,\u0153dict\u0153,\u0153object\u0153],\u0153dataType\u0153:\u0153SelfKnowledge\u0153,\u0153id\u0153:\u0153SelfKnowledge-TvFm8\u0153}-PushToHub-HznLa{\u0153fieldName\u0153:\u0153dataset\u0153,\u0153id\u0153:\u0153PushToHub-HznLa\u0153,\u0153inputTypes\u0153:null,\u0153type\u0153:\u0153DatasetDict\u0153}",
         "source": "SelfKnowledge-TvFm8",
-        "sourceHandle": "{œbaseClassesœ: [œDatasetDictœ, œdictœ, œobjectœ], œdataTypeœ: œSelfKnowledgeœ, œidœ: œSelfKnowledge-TvFm8œ}",
+        "sourceHandle": "{\u0153baseClasses\u0153: [\u0153DatasetDict\u0153, \u0153dict\u0153, \u0153object\u0153], \u0153dataType\u0153: \u0153SelfKnowledge\u0153, \u0153id\u0153: \u0153SelfKnowledge-TvFm8\u0153}",
         "style": {
           "stroke": "#555"
         },
         "target": "PushToHub-HznLa",
-        "targetHandle": "{œfieldNameœ: œdatasetœ, œidœ: œPushToHub-HznLaœ, œinputTypesœ: null, œtypeœ: œDatasetDictœ}"
+        "targetHandle": "{\u0153fieldName\u0153: \u0153dataset\u0153, \u0153id\u0153: \u0153PushToHub-HznLa\u0153, \u0153inputTypes\u0153: null, \u0153type\u0153: \u0153DatasetDict\u0153}"
       },
       {
         "className": "stroke-foreground stroke-connection",
@@ -301,14 +301,14 @@
             "type": "DatasetDict"
           }
         },
-        "id": "reactflow__edge-JsonToDatasetDict-4fgTV{œbaseClassesœ:[œDatasetDictœ,œdictœ,œobjectœ],œdataTypeœ:œJsonToDatasetDictœ,œidœ:œJsonToDatasetDict-4fgTVœ}-Datasetmerge-mrqBS{œfieldNameœ:œdataset2œ,œidœ:œDatasetmerge-mrqBSœ,œinputTypesœ:null,œtypeœ:œDatasetDictœ}",
+        "id": "reactflow__edge-JsonToDatasetDict-4fgTV{\u0153baseClasses\u0153:[\u0153DatasetDict\u0153,\u0153dict\u0153,\u0153object\u0153],\u0153dataType\u0153:\u0153JsonToDatasetDict\u0153,\u0153id\u0153:\u0153JsonToDatasetDict-4fgTV\u0153}-Datasetmerge-mrqBS{\u0153fieldName\u0153:\u0153dataset2\u0153,\u0153id\u0153:\u0153Datasetmerge-mrqBS\u0153,\u0153inputTypes\u0153:null,\u0153type\u0153:\u0153DatasetDict\u0153}",
         "source": "JsonToDatasetDict-4fgTV",
-        "sourceHandle": "{œbaseClassesœ: [œDatasetDictœ, œdictœ, œobjectœ], œdataTypeœ: œJsonToDatasetDictœ, œidœ: œJsonToDatasetDict-4fgTVœ}",
+        "sourceHandle": "{\u0153baseClasses\u0153: [\u0153DatasetDict\u0153, \u0153dict\u0153, \u0153object\u0153], \u0153dataType\u0153: \u0153JsonToDatasetDict\u0153, \u0153id\u0153: \u0153JsonToDatasetDict-4fgTV\u0153}",
         "style": {
           "stroke": "#555"
         },
         "target": "Datasetmerge-mrqBS",
-        "targetHandle": "{œfieldNameœ: œdataset2œ, œidœ: œDatasetmerge-mrqBSœ, œinputTypesœ: null, œtypeœ: œDatasetDictœ}"
+        "targetHandle": "{\u0153fieldName\u0153: \u0153dataset2\u0153, \u0153id\u0153: \u0153Datasetmerge-mrqBS\u0153, \u0153inputTypes\u0153: null, \u0153type\u0153: \u0153DatasetDict\u0153}"
       }
     ],
     "nodes": [

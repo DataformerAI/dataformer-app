@@ -706,6 +706,8 @@ export const PRIORITY_SIDEBAR_ORDER = [
   "data",
   "prompt",
   "models",
+  "model_specs",
+  "generators",
   "helpers",
   "vectorstores",
   "vectorsearch",
