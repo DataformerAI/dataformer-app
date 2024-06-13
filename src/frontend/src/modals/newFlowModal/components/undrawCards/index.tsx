@@ -47,7 +47,7 @@ export default function UndrawCardComponent({
             }}
           />
         );
-      case "Basic Prompting (Hello, World)":
+      case "self knowledge":
         return (
           <BasicPrompt
             style={{

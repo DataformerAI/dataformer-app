@@ -1,5 +1,5 @@
 from dfapp.base.models.model import LCModelComponent
-from dfapp.field_typing import BaseLanguageModel
+from dfapp.field_typing import BaseLanguageModel, Text
 
 
 class SimpleGeneratorComponent(LCModelComponent):
@@ -13,5 +13,5 @@ class SimpleGeneratorComponent(LCModelComponent):
                 "system_prompt": {"display_name": "system_prompt"},
         }
 
-    def build(self, text: str, model: BaseLanguageModel, system_prompt: str = None) -> str:
+    def build(self, text: Text, model: BaseLanguageModel, system_prompt: Text = None) -> str:
         return self.get_chat_result(model, False, text, system_prompt)

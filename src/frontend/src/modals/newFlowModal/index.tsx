@@ -27,14 +27,10 @@ export default function NewFlowModal({
         <div className=" mb-5 grid h-fit w-full grid-cols-3 gap-4 overflow-auto pb-6 custom-scroll">
           <NewFlowCardComponent />
 
-          {examples.find((e) => e.name == "Basic Prompting (Hello, World)") && (
+          {examples.find((e) => e.name == "self knowledge") && (
             <UndrawCardComponent
               key={0}
-              flow={
-                examples.find(
-                  (e) => e.name == "Basic Prompting (Hello, World)",
-                )!
-              }
+              flow={examples.find((e) => e.name == "self knowledge")!}
             />
           )}
           {examples.find((e) => e.name == "Memory Chatbot") && (
