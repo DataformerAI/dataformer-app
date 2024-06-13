@@ -3,6 +3,8 @@ from dfapp.field_typing import BaseLanguageModel
 from datasets import DatasetDict, Dataset
 from tqdm import tqdm
 import random
+import asyncio
+from langdetect import detect
 
 
 class EvolInstructGeneratorComponent(LCModelComponent):
@@ -40,6 +42,15 @@ class EvolInstructGeneratorComponent(LCModelComponent):
     def build_config(self):
         return {
             "Column_name": {"display_name": "Column", "required": True},
+            "max_requests": {
+                "display_name": "Max Requests per Minute",
+                "advanced": True,
+            },
+            "max_attempts": {
+                "display_name": "Max Attempts",
+                "info": "Max retry attempts to make if api call fails",
+                "advanced": True,
+            },
             "Breadth_Prompt": {"display_name": "Breadth Prompt", "multiline": True, "advanced": True},
             "Constraints_Prompt": {"display_name": "Constraints Prompt", "multiline": True, "advanced": True},
             "Deepen_Prompt": {"display_name": "Deepen Prompt", "multiline": True, "advanced": True},
@@ -52,6 +63,8 @@ class EvolInstructGeneratorComponent(LCModelComponent):
         Column_name: str,
         dataset: DatasetDict,
         model: BaseLanguageModel,
+        max_requests: int = 20,
+        max_attempts: int = 3,
         Breadth_Prompt: str = "I want you act as a Prompt Creator.\r\n\
             Your goal is to draw inspiration from the #Given Prompt# to create a brand new prompt.\r\n\
             This new prompt should belong to the same domain as the #Given Prompt# but be even more rare.\r\n\
@@ -91,10 +104,9 @@ class EvolInstructGeneratorComponent(LCModelComponent):
             You should try your best not to make the #Rewritten Prompt# become verbose, #Rewritten Prompt# can only add 10 to 20 words into #The Given Prompt#. \r\n\
             '#The Given Prompt#', '#Rewritten Prompt#', 'given prompt' and 'rewritten prompt' are not allowed to appear in #Rewritten Prompt#\r\n",
     ) -> DatasetDict:
-        df = dataset["train"].to_pandas().head(2)
-        question_responses = []
-        answer_response = []
-
+        df = dataset["train"].to_pandas()
+        data = []
+        selected_evol_prompts = []
         for instruction in tqdm(df[Column_name], desc="Generating prompts"):
             evol_prompts = [
                 self.createBreadthPrompt(instruction, Breadth_Prompt),
@@ -104,12 +116,14 @@ class EvolInstructGeneratorComponent(LCModelComponent):
                 self.createReasoningPrompt(instruction, Reasoning_Prompt),
             ]
             selected_evol_prompt = random.choice(evol_prompts)
-            chat_completion = self.get_chat_result(model, False, selected_evol_prompt)
-            answer = self.get_chat_result(model, False, chat_completion)
-            question_responses.append(chat_completion)
-            answer_response.append(answer)
-        df["instruction"] = question_responses
-        df["output"] = answer_response
-        new_dataset = Dataset.from_pandas(df)
+            data.append(instruction)
+            selected_evol_prompts.append(selected_evol_prompt)
+        loop = asyncio.get_event_loop()
+        selected_evol_prompt = random.choice(selected_evol_prompts)
+        question = loop.run_until_complete(self.datagen_bulk(model, data, selected_evol_prompt, max_requests, max_attempts))
+        answers = loop.run_until_complete(self.datagen_bulk(model, question, None, max_requests, max_attempts))
+        instruction_answer_pairs = [(question[i], answers[i], detect(data[i])) for i in range(len(data))]
+        new_df = pd.DataFrame(instruction_answer_pairs, columns=['question', 'answer', 'lang'])
+        new_dataset = Dataset.from_pandas(new_df)
         new_dataset = DatasetDict({"train": new_dataset})
         return new_dataset
