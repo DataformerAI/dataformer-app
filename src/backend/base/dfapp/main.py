@@ -77,7 +77,7 @@ def create_app():
     configure()
     socketio_server = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins="*", logger=True)
     lifespan = get_lifespan(socketio_server=socketio_server, version=__version__)
-    app = FastAPI(lifespan=lifespan, title="DataformerApp", version=__version__)
+    app = FastAPI(lifespan=lifespan, title="DataformerApp")
     origins = ["*"]
 
     app.add_middleware(
