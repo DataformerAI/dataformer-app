@@ -4,6 +4,8 @@ from datasets import DatasetDict, Dataset
 from tqdm import tqdm
 import random
 import pandas as pd
+import asyncio
+from langdetect import detect
 
 class SampleGeneratorComponent(LCModelComponent):
     display_name = "Sample Generator"
@@ -13,7 +15,16 @@ class SampleGeneratorComponent(LCModelComponent):
         return {
             "System Prompt": {"display_name": "System Prompt", "multiline": True},
             "Question Column": {"display_name": "Question Column Name"},
-            "Target Sample Count": {"display_name": "Target Sample Count"}
+            "Target Sample Count": {"display_name": "Target Sample Count"},
+            "max_requests": {
+                "display_name": "Max Requests per Minute",
+                "advanced": True,
+            },
+            "max_attempts": {
+                "display_name": "Max Attempts",
+                "info": "Max retry attempts to make if api call fails",
+                "advanced": True,
+            }
         }
 
     def build(
@@ -22,27 +33,22 @@ class SampleGeneratorComponent(LCModelComponent):
         model: BaseLanguageModel,
         question_column: str = "Sample",
         target_sample_count: int = 100,
-        system_prompt: str = ""
+        system_prompt: str = "",
+        max_requests: int = 20,
+        max_attempts: int = 3,
     ) -> DatasetDict:
         df = dataset["train"].to_pandas().head(20)
         seed_samples = list(df[question_column])
-        expanded_samples = []
-        while len(expanded_samples) < target_sample_count:
+        data_instructions = []
+        system_prompt = f"You are an advanced AI assistant. Extract keywords from the provided context and generate a sample using them. Output only, no additional instructions needed. {system_prompt}"
+        while len(data_instructions) < target_sample_count:
             seed_sample = random.choice(seed_samples)
-            prompt = ChatPromptTemplate.from_messages([
-                ("system", f"You are an advanced AI assistant. Extract keywords from the provided context and generate a sample using them. Output only, no additional instructions needed. {system_prompt}"),
-                ("human", f"Generate a new sample similar to: {seed_sample}"),
-            ])
-            try:
-                chain = prompt | model
-                new_sample = chain.invoke({"input": seed_sample})
-                expanded_samples.append(new_sample.content)
-            except Exception as e:
-                print(f"Error generating sample: {e}")
-                continue
-
-        new_df = pd.DataFrame(expanded_samples, columns=[question_column])
+            prompt = f"Generate a new sample similar to: {seed_sample}"
+            data_instructions.append(prompt)
+        loop = asyncio.get_event_loop()
+        answers = loop.run_until_complete(self.datagen_bulk(model, data_instructions, system_prompt, max_requests, max_attempts))
+        instruction_answer_pairs = [(data_instructions[i], answers[i], detect(data_instructions[i])) for i in range(len(data_instructions))]
+        new_df = pd.DataFrame(instruction_answer_pairs, columns=[f'{question_column}', 'Sample_Generated', 'lang'])
         new_dataset = Dataset.from_pandas(new_df)
         new_dataset_dict = DatasetDict({"train": new_dataset})
-
         return new_dataset_dict
