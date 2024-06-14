@@ -135,14 +135,15 @@ const TableComponent = forwardRef<
       <div
         className={cn(
           dark ? "ag-theme-quartz-dark" : "ag-theme-quartz",
-          "ag-theme-shadcn flex h-full flex-col",
-          "relative",
-        )} // applying the grid theme
+          "ag-theme-shadcn relative flex h-full flex-col",
+          // Add overflow and width properties for scrolling
+          "w-full overflow-auto",
+        )}
       >
         <AgGridReact
           {...props}
           defaultColDef={{
-            minWidth: 100,
+            minWidth: 250, // Adjust the minimum width as per your requirement
             autoHeight: true,
           }}
           columnDefs={colDef}

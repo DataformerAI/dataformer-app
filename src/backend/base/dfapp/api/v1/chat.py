@@ -1,9 +1,13 @@
 import time
 import uuid
 from typing import TYPE_CHECKING, Annotated, Optional
+import json
+import datetime
+from os import path
 
 from fastapi import APIRouter, BackgroundTasks, Body, Depends, HTTPException
 from fastapi.responses import StreamingResponse
+from fastapi.responses import FileResponse
 from loguru import logger
 
 from dfapp.api.utils import (
@@ -34,6 +38,11 @@ if TYPE_CHECKING:
 
 router = APIRouter(tags=["Chat"])
 
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.isoformat()
+        return super(DateTimeEncoder, self).default(obj)
 
 async def try_running_celery_task(vertex, user_id):
     # Try running the task in celery
@@ -227,7 +236,7 @@ async def build_vertex(
         if graph.stop_vertex and graph.stop_vertex in next_runnable_vertices:
             next_runnable_vertices = [graph.stop_vertex]
 
-        build_response = VertexBuildResponse(
+        buildResponse = VertexBuildResponse(
             inactivated_vertices=inactivated_vertices,
             next_vertices_ids=next_runnable_vertices,
             top_level_vertices=top_level_vertices,
@@ -236,13 +245,24 @@ async def build_vertex(
             id=vertex.id,
             data=result_data_response,
         )
-        return build_response
+        print(buildResponse.dict())
+        with open('/home/utkarshraj/Desktop/dataformer-app-fork11/response/buildResponse.json', 'w') as f:
+            json.dump(buildResponse.dict(), f, cls=DateTimeEncoder)
+        return buildResponse
     except Exception as exc:
         logger.error(f"Error building vertex: {exc}")
         logger.exception(exc)
         message = parse_exception(exc)
         raise HTTPException(status_code=500, detail=message) from exc
 
+@router.get("/build_response")
+async def get_build_response():
+    filename = '/home/utkarshraj/Desktop/dataformer-app-fork11/response/buildResponse.json'
+
+    if not path.exists(filename):
+        raise HTTPException(status_code=404, detail="File not found")
+
+    return FileResponse(filename, media_type='application/json')
 
 @router.get("/build/{flow_id}/{vertex_id}/stream", response_class=StreamingResponse)
 async def build_vertex_stream(

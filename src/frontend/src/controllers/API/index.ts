@@ -1115,3 +1115,12 @@ export async function deleteMessagesFn(ids: number[]) {
 export async function updateMessageApi(data: Message) {
   return await api.post(`${BASE_URL_API}monitor/messages/${data.index}`, data);
 }
+
+export async function getBuildResponse(): Promise<AxiosResponse<any>> {
+  try {
+    const response = await api.get(`${BASE_URL_API}build_response`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

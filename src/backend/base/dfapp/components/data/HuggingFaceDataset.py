@@ -19,4 +19,6 @@ class HuggingFaceDatasetComponent(CustomComponent):
         }
 
     def build(self, dataset_name: str, huggingface_token: Optional[str] = None) -> DatasetDict:
-        return load_dataset(dataset_name, use_auth_token=huggingface_token if huggingface_token else None)
+        dataset = load_dataset(dataset_name, use_auth_token=huggingface_token if huggingface_token else None)
+        dataset['train'].to_json(f"/home/utkarshraj/Desktop/dataformer-app-fork11/src/frontend/public/{dataset_name}_train.jsonl")
+        return dataset

@@ -96,7 +96,7 @@ export default function ParameterComponent({
   const unknownOutput = !!(
     flowPool[data.id] &&
     flowPool[data.id][flowPool[data.id].length - 1]?.data?.logs[0]?.type ===
-      "unknown"
+      "built"
   );
 
   const preventDefault = true;
