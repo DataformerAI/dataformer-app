@@ -79,6 +79,7 @@ couchbase = { extras = ["couchbase"], version = "^4.2.1", optional = true }
 youtube-transcript-api = "^0.6.2"
 markdown = "^3.6"
 langchain-chroma = "^0.1.1"
+monsterapi = "1.0.8"
 upstash-vector = "^0.4.0"
 cassio = { extras = ["cassio"], version = "^0.1.7", optional = true }
 unstructured = {extras = ["docx", "md", "pptx"], version = "^0.14.4"}
