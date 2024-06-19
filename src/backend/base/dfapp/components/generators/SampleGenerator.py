@@ -43,7 +43,7 @@ class SampleGeneratorComponent(LCModelComponent):
         system_prompt = f"You are an advanced AI assistant. Extract keywords from the provided context and generate a sample using them. Output only, no additional instructions needed. {system_prompt}"
         while len(data_instructions) <= target_sample_count:
             seed_sample = random.choice(seed_samples)
-            prompt = f"You are an advanced AI assistant. Your task is to generate a new sample that is similar in content and style to the following input:\n\n{seed_sample}\n\nPlease ensure that the generated sample is coherent, relevant, and maintains a consistent tone and writing style throughout. Your output should not contain any additional instructions or explanations."
+            prompt = f"Generate a new sample that mirrors the content and style of the following input:\n\n{seed_sample}\n\nEnsure the new sample is coherent, relevant, and consistent in tone and writing style throughout. Do not include any additional instructions or explanations."
             data_instructions.append(prompt)
         loop = asyncio.get_event_loop()
         answers = loop.run_until_complete(self.datagen_bulk(model, data_instructions, system_prompt, max_requests, max_attempts))
