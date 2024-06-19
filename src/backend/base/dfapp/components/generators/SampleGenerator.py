@@ -5,7 +5,6 @@ from tqdm import tqdm
 import random
 import pandas as pd
 import asyncio
-from langdetect import detect
 
 class SampleGeneratorComponent(LCModelComponent):
     display_name = "Sample Generator"
@@ -37,18 +36,21 @@ class SampleGeneratorComponent(LCModelComponent):
         max_requests: int = 20,
         max_attempts: int = 3,
     ) -> DatasetDict:
-        df = dataset["train"].to_pandas().head(20)
+        df = dataset["train"].to_pandas()
         seed_samples = list(df[question_column])
         data_instructions = []
-        system_prompt = f"You are an advanced AI assistant. Extract keywords from the provided context and generate a sample using them. Output only, no additional instructions needed. {system_prompt}"
-        while len(data_instructions) <= target_sample_count:
+        system_prompt = f"{system_prompt}\n\nYou are an advanced AI assistant. Extract keywords from the provided context and generate a new sample using them. Output only the sample, no additional instructions or explanations."
+
+        while len(data_instructions) < target_sample_count:
             seed_sample = random.choice(seed_samples)
-            prompt = f"Generate a new sample that mirrors the content and style of the following input:\n\n{seed_sample}\n\nEnsure the new sample is coherent, relevant, and consistent in tone and writing style throughout. Do not include any additional instructions or explanations."
+            prompt = f"Generate a new sample that mirrors the content and style of the following input:\n\n{seed_sample}"
             data_instructions.append(prompt)
+
         loop = asyncio.get_event_loop()
         answers = loop.run_until_complete(self.datagen_bulk(model, data_instructions, system_prompt, max_requests, max_attempts))
-        instruction_answer_pairs = [(seed_samples[i], answers[i], detect(data_instructions[i])) for i in range(len(data_instructions))]
-        new_df = pd.DataFrame(instruction_answer_pairs, columns=[f'{question_column}', 'Sample_Generated', 'lang'])
+        seed_samples.extend(answers)
+
+        new_df = pd.DataFrame(seed_samples, columns=[question_column])
         new_dataset = Dataset.from_pandas(new_df)
         new_dataset_dict = DatasetDict({"train": new_dataset})
         return new_dataset_dict
