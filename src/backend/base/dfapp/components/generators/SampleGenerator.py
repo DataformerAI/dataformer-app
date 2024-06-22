@@ -37,18 +37,20 @@ class SampleGeneratorComponent(LCModelComponent):
         max_requests: int = 20,
         max_attempts: int = 3,
     ) -> DatasetDict:
-        df = dataset["train"].to_pandas().head(20)
+        df = dataset["train"].to_pandas()
         seed_samples = list(df[question_column])
         data_instructions = []
         system_prompt = f"You are an advanced AI assistant. Extract keywords from the provided context and generate a sample using them. Output only, no additional instructions needed. {system_prompt}"
-        while len(data_instructions) < target_sample_count:
+        while len(data_instructions) <= target_sample_count:
             seed_sample = random.choice(seed_samples)
-            prompt = f"Generate a new sample similar to: {seed_sample}"
+            prompt = f"Generate a new sample that mirrors the content and style of the following input:\n\n{seed_sample}\n\nEnsure the new sample is coherent, relevant, and consistent in tone and writing style throughout. Do not include any additional instructions or explanations."
             data_instructions.append(prompt)
         loop = asyncio.get_event_loop()
         answers = loop.run_until_complete(self.datagen_bulk(model, data_instructions, system_prompt, max_requests, max_attempts))
-        instruction_answer_pairs = [(data_instructions[i], answers[i], detect(data_instructions[i])) for i in range(len(data_instructions))]
-        new_df = pd.DataFrame(instruction_answer_pairs, columns=[f'{question_column}', 'Sample_Generated', 'lang'])
+        for i in range(len(data_instructions)):
+            seed_samples.append(answers[i])
+        instruction_answer_pairs = [(seed_samples[i], detect(seed_samples[i])) for i in range(len(seed_samples))]
+        new_df = pd.DataFrame(instruction_answer_pairs, columns=[f'{question_column}','lang'])
         new_dataset = Dataset.from_pandas(new_df)
         new_dataset_dict = DatasetDict({"train": new_dataset})
         return new_dataset_dict
