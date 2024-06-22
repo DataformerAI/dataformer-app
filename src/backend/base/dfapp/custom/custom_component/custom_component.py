@@ -3,6 +3,8 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, ClassVar, List, Optional, Sequence, Union
 from uuid import UUID
 
+from datasets import DatasetDict
+
 import yaml
 from cachetools import TTLCache, cachedmethod
 from langchain_core.documents import Document
@@ -164,6 +166,8 @@ class CustomComponent(Component):
             return self.repr_value
         if isinstance(self.repr_value, BaseModel) and not isinstance(self.repr_value, Record):
             return str(self.repr_value)
+        if isinstance(self.repr_value, DatasetDict):
+            return DatasetDict()
         return self.repr_value
 
     def build_config(self):

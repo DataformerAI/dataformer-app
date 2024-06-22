@@ -5,20 +5,14 @@
         "className": "",
         "data": {
           "sourceHandle": {
-            "baseClasses": [
-              "object",
-              "str",
-              "Text"
-            ],
+            "baseClasses": ["object", "str", "Text"],
             "dataType": "SimpleGenerator",
             "id": "SimpleGenerator-xglPR"
           },
           "targetHandle": {
             "fieldName": "text",
             "id": "TextToJson-iTO5Z",
-            "inputTypes": [
-              "Text"
-            ],
+            "inputTypes": ["Text"],
             "type": "str"
           }
         },
@@ -35,10 +29,7 @@
         "className": "",
         "data": {
           "sourceHandle": {
-            "baseClasses": [
-              "list",
-              "object"
-            ],
+            "baseClasses": ["list", "object"],
             "dataType": "TextToJson",
             "id": "TextToJson-iTO5Z"
           },
@@ -62,11 +53,7 @@
         "className": "",
         "data": {
           "sourceHandle": {
-            "baseClasses": [
-              "DatasetDict",
-              "dict",
-              "object"
-            ],
+            "baseClasses": ["DatasetDict", "dict", "object"],
             "dataType": "HuggingFaceDataset",
             "id": "HuggingFaceDataset-KBWe7"
           },
@@ -90,11 +77,7 @@
         "className": "",
         "data": {
           "sourceHandle": {
-            "baseClasses": [
-              "DatasetDict",
-              "dict",
-              "object"
-            ],
+            "baseClasses": ["DatasetDict", "dict", "object"],
             "dataType": "JsonToDatasetDict",
             "id": "JsonToDatasetDict-IjDhU"
           },
@@ -174,20 +157,14 @@
         "className": "",
         "data": {
           "sourceHandle": {
-            "baseClasses": [
-              "object",
-              "str",
-              "Text"
-            ],
+            "baseClasses": ["object", "str", "Text"],
             "dataType": "SimpleGenerator",
             "id": "SimpleGenerator-R0UI5"
           },
           "targetHandle": {
             "fieldName": "text",
             "id": "SimpleGenerator-xglPR",
-            "inputTypes": [
-              "Text"
-            ],
+            "inputTypes": ["Text"],
             "type": "str"
           }
         },
@@ -201,20 +178,14 @@
         "className": "",
         "data": {
           "sourceHandle": {
-            "baseClasses": [
-              "object",
-              "str",
-              "Text"
-            ],
+            "baseClasses": ["object", "str", "Text"],
             "dataType": "Prompt",
             "id": "Prompt-PPmww"
           },
           "targetHandle": {
             "fieldName": "text",
             "id": "SimpleGenerator-R0UI5",
-            "inputTypes": [
-              "Text"
-            ],
+            "inputTypes": ["Text"],
             "type": "str"
           }
         },
@@ -228,20 +199,14 @@
         "className": "",
         "data": {
           "sourceHandle": {
-            "baseClasses": [
-              "object",
-              "str",
-              "Text"
-            ],
+            "baseClasses": ["object", "str", "Text"],
             "dataType": "TextInput",
             "id": "TextInput-9uM1Q"
           },
           "targetHandle": {
             "fieldName": "system_prompt",
             "id": "SimpleGenerator-xglPR",
-            "inputTypes": [
-              "Text"
-            ],
+            "inputTypes": ["Text"],
             "type": "str"
           }
         },
@@ -254,11 +219,7 @@
       {
         "data": {
           "sourceHandle": {
-            "baseClasses": [
-              "DatasetDict",
-              "dict",
-              "object"
-            ],
+            "baseClasses": ["DatasetDict", "dict", "object"],
             "dataType": "Datasetmerge",
             "id": "Datasetmerge-uTchZ"
           },
@@ -305,11 +266,7 @@
       {
         "data": {
           "sourceHandle": {
-            "baseClasses": [
-              "DatasetDict",
-              "dict",
-              "object"
-            ],
+            "baseClasses": ["DatasetDict", "dict", "object"],
             "dataType": "SelfKnowledge",
             "id": "SelfKnowledge-n6yyl"
           },
@@ -334,16 +291,10 @@
           "display_name": "Prompt",
           "id": "Prompt-PPmww",
           "node": {
-            "base_classes": [
-              "object",
-              "str",
-              "Text"
-            ],
+            "base_classes": ["object", "str", "Text"],
             "beta": false,
             "custom_fields": {
-              "template": [
-                "samples"
-              ]
+              "template": ["samples"]
             },
             "description": "Create a prompt template with dynamic variables.",
             "display_name": "Prompt",
@@ -358,9 +309,7 @@
             "is_input": null,
             "is_output": null,
             "name": "",
-            "output_types": [
-              "Prompt"
-            ],
+            "output_types": ["Prompt"],
             "template": {
               "_type": "CustomComponent",
               "code": {
@@ -389,11 +338,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "",
-                "input_types": [
-                  "Document",
-                  "Record",
-                  "Text"
-                ],
+                "input_types": ["Document", "Record", "Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": true,
@@ -413,9 +358,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -453,11 +396,7 @@
           "display_name": "Simple Generator",
           "id": "SimpleGenerator-xglPR",
           "node": {
-            "base_classes": [
-              "object",
-              "str",
-              "Text"
-            ],
+            "base_classes": ["object", "str", "Text"],
             "beta": false,
             "custom_fields": {
               "model": null,
@@ -471,9 +410,7 @@
             "field_formatters": {},
             "field_order": [],
             "frozen": false,
-            "output_types": [
-              "Text"
-            ],
+            "output_types": ["Text"],
             "template": {
               "_type": "CustomComponent",
               "code": {
@@ -519,9 +456,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -539,9 +474,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -576,10 +509,7 @@
         "data": {
           "id": "TextToJson-iTO5Z",
           "node": {
-            "base_classes": [
-              "list",
-              "object"
-            ],
+            "base_classes": ["list", "object"],
             "beta": false,
             "custom_fields": {
               "text": null
@@ -591,9 +521,7 @@
             "field_order": [],
             "frozen": false,
             "icon": "merge",
-            "output_types": [
-              "list"
-            ],
+            "output_types": ["list"],
             "template": {
               "_type": "CustomComponent",
               "code": {
@@ -621,9 +549,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "The Json data in string data type",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -658,11 +584,7 @@
         "data": {
           "id": "JsonToDatasetDict-IjDhU",
           "node": {
-            "base_classes": [
-              "DatasetDict",
-              "dict",
-              "object"
-            ],
+            "base_classes": ["DatasetDict", "dict", "object"],
             "beta": false,
             "custom_fields": {
               "json_data": null
@@ -674,9 +596,7 @@
             "field_order": [],
             "frozen": false,
             "icon": "merge",
-            "output_types": [
-              "DatasetDict"
-            ],
+            "output_types": ["DatasetDict"],
             "template": {
               "_type": "CustomComponent",
               "code": {
@@ -738,11 +658,7 @@
         "data": {
           "id": "Datasetmerge-uTchZ",
           "node": {
-            "base_classes": [
-              "DatasetDict",
-              "dict",
-              "object"
-            ],
+            "base_classes": ["DatasetDict", "dict", "object"],
             "beta": false,
             "custom_fields": {
               "dataset1": null,
@@ -754,9 +670,7 @@
             "field_formatters": {},
             "field_order": [],
             "frozen": false,
-            "output_types": [
-              "DatasetDict"
-            ],
+            "output_types": ["DatasetDict"],
             "template": {
               "_type": "CustomComponent",
               "code": {
@@ -834,11 +748,7 @@
         "data": {
           "id": "HuggingFaceDataset-KBWe7",
           "node": {
-            "base_classes": [
-              "DatasetDict",
-              "dict",
-              "object"
-            ],
+            "base_classes": ["DatasetDict", "dict", "object"],
             "beta": false,
             "custom_fields": {
               "dataset_name": null,
@@ -850,9 +760,7 @@
             "field_formatters": {},
             "field_order": [],
             "frozen": false,
-            "output_types": [
-              "DatasetDict"
-            ],
+            "output_types": ["DatasetDict"],
             "template": {
               "_type": "CustomComponent",
               "code": {
@@ -871,7 +779,7 @@
                 "show": true,
                 "title_case": false,
                 "type": "code",
-                "value": "from dfapp.custom import CustomComponent\nfrom datasets import load_dataset, DatasetDict\nfrom typing import Optional\n\n\nclass HuggingFaceDatasetComponent(CustomComponent):\n    display_name = \"HuggingFace Dataset\"\n    description = \"Retrieve datasets from Hugging Face.\"\n\n    def build_config(self):\n        return {\n            \"dataset_name\": {\"display_name\": \"Dataset Name\", \"info\": \"Name of the dataset to retrieve.\"},\n            \"huggingface_token\": {\n                \"display_name\": \"Hugging Face Token\",\n                \"password\": True,\n                \"info\": \"Token for Hugging Face API authentication (optional).\",\n                \"required\": False,\n            },\n        }\n\n    def build(self, dataset_name: str, huggingface_token: Optional[str] = None) -> DatasetDict:\n        return load_dataset(dataset_name, use_auth_token=huggingface_token if huggingface_token else None)\n"
+                "value": "from dfapp.custom import CustomComponent\nfrom datasets import load_dataset, DatasetDict\nfrom typing import Optional\n\n\nclass HuggingFaceDatasetComponent(CustomComponent):\n    display_name = \"HuggingFace Dataset\"\n    description = \"Retrieve datasets from Hugging Face.\"\n\n    def build_config(self):\n        return {\n            \"dataset_name\": {\"display_name\": \"Dataset Name\", \"info\": \"Name of the dataset to retrieve.\"},\n            \"huggingface_token\": {\n                \"display_name\": \"Hugging Face Token\",\n                \"password\": True,\n                \"info\": \"Token for Hugging Face API authentication (optional).\",\n                \"required\": False,\n            },\n        }\n\n    def build(self, dataset_name: str, huggingface_token: Optional[str] = None) -> DatasetDict:\n        self.status = DatasetDict()\n        dataset = load_dataset(dataset_name, use_auth_token=huggingface_token if huggingface_token else None)\n        # dataset['train'].to_json(f\"/home/avatar/dataformer-app/src/frontend/public/{dataset_name}_train.jsonl\")\n        dataset['train'].to_json(f\"./src/frontend/public/{dataset_name}_train.jsonl\")\n        return dataset\n"
               },
               "dataset_name": {
                 "advanced": false,
@@ -880,9 +788,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "Name of the dataset to retrieve.",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -902,9 +808,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "Token for Hugging Face API authentication (optional).",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": true,
                 "multiline": false,
@@ -976,9 +880,7 @@
             ],
             "frozen": false,
             "icon": "Groq",
-            "output_types": [
-              "Text"
-            ],
+            "output_types": ["Text"],
             "template": {
               "_type": "CustomComponent",
               "code": {
@@ -1006,9 +908,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "Base URL path for API requests, leave blank if not using a proxy or service emulator.",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -1027,9 +927,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "API key for the Groq API.",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": true,
                 "multiline": false,
@@ -1067,9 +965,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "The name of the model to use. Supported examples: gemini-pro",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": true,
                 "load_from_db": false,
                 "multiline": false,
@@ -1210,9 +1106,7 @@
             ],
             "frozen": false,
             "icon": "Groq",
-            "output_types": [
-              "Text"
-            ],
+            "output_types": ["Text"],
             "template": {
               "_type": "CustomComponent",
               "code": {
@@ -1240,9 +1134,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "Base URL path for API requests, leave blank if not using a proxy or service emulator.",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -1261,9 +1153,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "API key for the Groq API.",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": true,
                 "multiline": false,
@@ -1301,9 +1191,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "The name of the model to use. Supported examples: gemini-pro",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": true,
                 "load_from_db": false,
                 "multiline": false,
@@ -1410,11 +1298,7 @@
           "display_name": "Simple Generator",
           "id": "SimpleGenerator-R0UI5",
           "node": {
-            "base_classes": [
-              "object",
-              "str",
-              "Text"
-            ],
+            "base_classes": ["object", "str", "Text"],
             "beta": false,
             "custom_fields": {
               "model": null,
@@ -1428,9 +1312,7 @@
             "field_formatters": {},
             "field_order": [],
             "frozen": false,
-            "output_types": [
-              "Text"
-            ],
+            "output_types": ["Text"],
             "template": {
               "_type": "CustomComponent",
               "code": {
@@ -1476,9 +1358,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -1496,9 +1376,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -1592,9 +1470,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "Name of the dataset to push. Specify username in user_name column if not included here.",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -1614,9 +1490,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "Token for Hugging Face API authentication.",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": true,
                 "multiline": false,
@@ -1636,9 +1510,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "Hugging Face username.",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -1674,11 +1546,7 @@
         "data": {
           "id": "TextInput-9uM1Q",
           "node": {
-            "base_classes": [
-              "object",
-              "str",
-              "Text"
-            ],
+            "base_classes": ["object", "str", "Text"],
             "beta": false,
             "custom_fields": {
               "input_value": null,
@@ -1691,9 +1559,7 @@
             "field_order": [],
             "frozen": false,
             "icon": "type",
-            "output_types": [
-              "Text"
-            ],
+            "output_types": ["Text"],
             "template": {
               "_type": "CustomComponent",
               "code": {
@@ -1721,10 +1587,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "Text or Record to be passed as input.",
-                "input_types": [
-                  "Record",
-                  "Text"
-                ],
+                "input_types": ["Record", "Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -1744,9 +1607,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "Template to convert Record to Text. If left empty, it will be dynamically set to the Record's text key.",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": true,
@@ -1782,11 +1643,7 @@
         "data": {
           "id": "SelfKnowledge-n6yyl",
           "node": {
-            "base_classes": [
-              "DatasetDict",
-              "dict",
-              "object"
-            ],
+            "base_classes": ["DatasetDict", "dict", "object"],
             "beta": false,
             "custom_fields": {
               "Column_name": null,
@@ -1802,9 +1659,7 @@
             "field_formatters": {},
             "field_order": [],
             "frozen": false,
-            "output_types": [
-              "DatasetDict"
-            ],
+            "output_types": ["DatasetDict"],
             "template": {
               "Column_name": {
                 "advanced": false,
@@ -1813,9 +1668,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,
@@ -1925,9 +1778,7 @@
                 "fileTypes": [],
                 "file_path": "",
                 "info": "",
-                "input_types": [
-                  "Text"
-                ],
+                "input_types": ["Text"],
                 "list": false,
                 "load_from_db": false,
                 "multiline": false,

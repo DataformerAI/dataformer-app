@@ -10,6 +10,8 @@ import TextOutputView from "../../../../../../shared/components/textOutputView";
 import useFlowStore from "../../../../../../stores/flowStore";
 import ErrorOutput from "./components";
 
+import { useState, useEffect } from "react";
+
 export default function SwitchOutputView(nodeId): JSX.Element {
   const nodeIdentity = nodeId.nodeId;
 
@@ -24,9 +26,28 @@ export default function SwitchOutputView(nodeId): JSX.Element {
   const results = flowPoolNode?.data?.logs[0] ?? "";
   const resultType = results?.type;
   let resultMessage = results?.message;
+  const [data, setData] = useState([]);
   const RECORD_TYPES = ["record", "object", "array", "message"];
   if (resultMessage.raw) {
     resultMessage = resultMessage.raw;
+  }
+
+  if (resultType === "datasetdict") {
+    const datasetNameValue = node.data?.node?.template?.dataset_name?.value;
+    useEffect(() => {
+      if (datasetNameValue) {
+        fetch(`/${datasetNameValue}_train.jsonl`)
+          .then((response) => response.text())
+          .then((text) => {
+            const lines = text.split("\n");
+            const jsonlData = lines
+              .filter((line) => line.trim() !== "")
+              .map((line) => JSON.parse(line));
+            //@ts-ignore
+            setData(jsonlData);
+          });
+      }
+    }, [datasetNameValue]);
   }
 
   return (
@@ -40,6 +61,14 @@ export default function SwitchOutputView(nodeId): JSX.Element {
 
       <Case condition={node && resultType === "text"}>
         <TextOutputView left={false} value={resultMessage} />
+      </Case>
+
+      <Case condition={node && resultType === "datasetdict"}>
+        <RecordsOutputComponent
+          rows={data}
+          pagination={true}
+          columnMode="union"
+        />
       </Case>
 
       <Case condition={RECORD_TYPES.includes(resultType)}>

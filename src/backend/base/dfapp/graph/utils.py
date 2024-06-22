@@ -4,6 +4,8 @@ from typing import Any, Generator, Union
 from langchain_core.documents import Document
 from pydantic import BaseModel
 
+from datasets import DatasetDict
+
 from dfapp.interface.utils import extract_input_variables_from_prompt
 from dfapp.schema import Record
 from dfapp.schema.message import Message
@@ -25,6 +27,8 @@ class ArtifactType(str, Enum):
     STREAM = "stream"
     UNKNOWN = "unknown"
     MESSAGE = "message"
+    DATADESTDICT = "datasetdict"
+
 
 
 def validate_prompt(prompt: str):
@@ -74,6 +78,9 @@ def get_artifact_type(custom_component, build_result) -> str:
 
         case str():
             result = ArtifactType.TEXT
+
+        case DatasetDict():
+            result = ArtifactType.DATADESTDICT
 
         case dict():
             result = ArtifactType.OBJECT
